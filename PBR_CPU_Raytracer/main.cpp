@@ -1,15 +1,9 @@
-#include <stdlib.h>
-#include <stdio.h>
+#include <iostream>
 
-#include "zlib/zlib.h"
-#include "libpng/png.h"
-
-#define TINYGLTF_IMPLEMENTATION
-#define STB_IMAGE_IMPLEMENTATION
-#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "ImageHandler.h"
+#include "ModelLoader.h"
 
 #include "glm/glm.hpp"
-#include "tinygltf/tiny_gltf.h"
 
 int width, height;
 png_byte color_type;
@@ -78,8 +72,6 @@ void read_png_file(char* filename)
     fclose(fp);
 
     png_destroy_read_struct(&png, &info, NULL);
-    png = NULL;
-    info = NULL;
 }
 
 void write_png_file(char* filename)
@@ -129,8 +121,7 @@ void write_png_file(char* filename)
 
     fclose(fp);
 
-    if(png && info)
-        png_destroy_write_struct(&png, &info);
+    png_destroy_write_struct(&png, &info);
 }
 
 void process_png_file()
@@ -149,18 +140,32 @@ void process_png_file()
 
 int main(int argc, char* argv[])
 {
-    if(argc != 3) abort();
+    if(argc != 5)
+    {
+        std::cout << "Insufficient number of params" << std::endl;
+        abort();
+    }
 
-    read_png_file(argv[1]);
-    process_png_file();
-    write_png_file(argv[2]);
+    pbr::ImageData imageData;
+    pbr::FileReadOpenData readData(&imageData);
+    pbr::FileWriteOpenData writeData(&imageData);
+
+    pbr::ReadPng({ argv[1] }, &readData);
+    pbr::WriteToPng({ argv[2] }, &writeData);
+    pbr::FreeMemory(&imageData);
+
+    pbr::ReadPng({ argv[2] }, &readData);
+    glm::vec4 color = { 255, 0, 0, 255 };
+    pbr::WriteColor(color, &writeData);
+    pbr::WriteToPng({ argv[3] }, &writeData);
+    pbr::FreeMemory(&imageData);
 
     tinygltf::Model model;
     tinygltf::TinyGLTF loader;
     std::string err;
     std::string warn;
 
-    bool ret = loader.LoadASCIIFromFile(&model, &err, &warn, argv[1]);
+    bool ret = loader.LoadASCIIFromFile(&model, &err, &warn, argv[4]);
     //bool ret = loader.LoadBinaryFromFile(&model, &err, &warn, argv[1]); // for binary glTF(.glb)
 
     if(!warn.empty())
@@ -178,8 +183,6 @@ int main(int argc, char* argv[])
         printf("Failed to parse glTF\n");
         return -1;
     }
-
-    glm::vec1 v;
 
     return 0;
 }

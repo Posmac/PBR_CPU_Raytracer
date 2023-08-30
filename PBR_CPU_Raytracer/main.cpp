@@ -165,8 +165,8 @@ int main(int argc, char* argv[])
     std::string err;
     std::string warn;
 
-    bool ret = loader.LoadASCIIFromFile(&model, &err, &warn, argv[4]);
-    //bool ret = loader.LoadBinaryFromFile(&model, &err, &warn, argv[1]); // for binary glTF(.glb)
+    //bool ret = loader.LoadASCIIFromFile(&model, &err, &warn, argv[4]);
+    bool ret = loader.LoadBinaryFromFile(&model, &err, &warn, argv[4]); // for binary glTF(.glb)
 
     if(!warn.empty())
     {

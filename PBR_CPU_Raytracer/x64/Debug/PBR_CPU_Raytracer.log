@@ -148,18 +148,18 @@ D:\Education\libpng-VisualStudio2019\lpng1637\pngwio.c(37): warning C5045: Compi
 D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(142): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
   D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(142) : note: index 'num_checked' range checked by comparison on this line
   D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(142) : note: feeds call on this line
-D:\Education\libpng-VisualStudio2019\lpng1637\pngmem.c(252): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-  D:\Education\libpng-VisualStudio2019\lpng1637\pngset.c(1448) : note: index '' range checked by comparison on this line
-  D:\Education\libpng-VisualStudio2019\lpng1637\pngmem.c(252) : note: feeds call on this line
-D:\Education\libpng-VisualStudio2019\lpng1637\pngmem.c(239): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-  D:\Education\libpng-VisualStudio2019\lpng1637\pngset.c(1448) : note: index '' range checked by comparison on this line
-  D:\Education\libpng-VisualStudio2019\lpng1637\pngmem.c(239) : note: feeds call on this line
 D:\Education\libpng-VisualStudio2019\lpng1637\pngmem.c(95): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
   D:\Education\libpng-VisualStudio2019\lpng1637\pngmem.c(83) : note: index 'new_size' range checked by comparison on this line
   D:\Education\libpng-VisualStudio2019\lpng1637\pngmem.c(95) : note: feeds call on this line
 D:\Education\libpng-VisualStudio2019\lpng1637\pngmem.c(91): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
   D:\Education\libpng-VisualStudio2019\lpng1637\pngmem.c(83) : note: index 'new_size' range checked by comparison on this line
   D:\Education\libpng-VisualStudio2019\lpng1637\pngmem.c(91) : note: feeds call on this line
+D:\Education\libpng-VisualStudio2019\lpng1637\pngmem.c(252): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+  D:\Education\libpng-VisualStudio2019\lpng1637\pngset.c(1448) : note: index '' range checked by comparison on this line
+  D:\Education\libpng-VisualStudio2019\lpng1637\pngmem.c(252) : note: feeds call on this line
+D:\Education\libpng-VisualStudio2019\lpng1637\pngmem.c(239): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+  D:\Education\libpng-VisualStudio2019\lpng1637\pngset.c(1448) : note: index '' range checked by comparison on this line
+  D:\Education\libpng-VisualStudio2019\lpng1637\pngmem.c(239) : note: feeds call on this line
 D:\Education\libpng-VisualStudio2019\lpng1637\pngrtran.c(280): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
   D:\Education\libpng-VisualStudio2019\lpng1637\pngrtran.c(277) : note: index 'output_gamma' range checked by comparison on this line
   D:\Education\libpng-VisualStudio2019\lpng1637\pngrtran.c(280) : note: feeds call on this line
@@ -211,6 +211,30 @@ D:\Education\libpng-VisualStudio2019\lpng1637\pngwutil.c(1553): warning C5045: C
 D:\Education\libpng-VisualStudio2019\lpng1637\pngwutil.c(1550): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
   D:\Education\libpng-VisualStudio2019\lpng1637\pngwutil.c(1549) : note: index '' range checked by comparison on this line
   D:\Education\libpng-VisualStudio2019\lpng1637\pngwutil.c(1550) : note: feeds call on this line
+D:\Education\libpng-VisualStudio2019\lpng1637\pngwio.c(37): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+  D:\Education\libpng-VisualStudio2019\lpng1637\pngwutil.c(133) : note: index 'entry_size' range checked by comparison on this line
+  D:\Education\libpng-VisualStudio2019\lpng1637\pngwio.c(37) : note: feeds call on this line
+D:\Education\libpng-VisualStudio2019\zlib\deflate.c(1000): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+  D:\Education\libpng-VisualStudio2019\zlib\deflate.c(770) : note: index 'flush' range checked by comparison on this line
+  D:\Education\libpng-VisualStudio2019\zlib\deflate.c(1000) : note: feeds call on this line
+D:\Education\libpng-VisualStudio2019\zlib\crc32.c(222): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+  D:\Education\libpng-VisualStudio2019\zlib\deflate.c(966) : note: index 'beg' range checked by comparison on this line
+  D:\Education\libpng-VisualStudio2019\zlib\crc32.c(222) : note: feeds call on this line
+D:\Education\libpng-VisualStudio2019\zlib\crc32.c(220): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+  D:\Education\libpng-VisualStudio2019\zlib\deflate.c(966) : note: index 'beg' range checked by comparison on this line
+  D:\Education\libpng-VisualStudio2019\zlib\crc32.c(220) : note: feeds call on this line
+D:\Education\libpng-VisualStudio2019\zlib\crc32.c(222): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+  D:\Education\libpng-VisualStudio2019\zlib\deflate.c(944) : note: index 'beg' range checked by comparison on this line
+  D:\Education\libpng-VisualStudio2019\zlib\crc32.c(222) : note: feeds call on this line
+D:\Education\libpng-VisualStudio2019\zlib\crc32.c(220): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+  D:\Education\libpng-VisualStudio2019\zlib\deflate.c(944) : note: index 'beg' range checked by comparison on this line
+  D:\Education\libpng-VisualStudio2019\zlib\crc32.c(220) : note: feeds call on this line
+D:\Education\libpng-VisualStudio2019\zlib\crc32.c(222): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+  D:\Education\libpng-VisualStudio2019\zlib\deflate.c(922) : note: index 'beg' range checked by comparison on this line
+  D:\Education\libpng-VisualStudio2019\zlib\crc32.c(222) : note: feeds call on this line
+D:\Education\libpng-VisualStudio2019\zlib\crc32.c(220): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+  D:\Education\libpng-VisualStudio2019\zlib\deflate.c(922) : note: index 'beg' range checked by comparison on this line
+  D:\Education\libpng-VisualStudio2019\zlib\crc32.c(220) : note: feeds call on this line
 D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(756): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
   D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(633) : note: index '' range checked by comparison on this line
   D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(756) : note: feeds call on this line
@@ -235,9 +259,6 @@ D:\Education\libpng-VisualStudio2019\lpng1637\pngmem.c(91): warning C5045: Compi
 D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(649): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
   D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(633) : note: index '' range checked by comparison on this line
   D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(649) : note: feeds call on this line
-D:\Education\libpng-VisualStudio2019\lpng1637\pngwio.c(37): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-  D:\Education\libpng-VisualStudio2019\lpng1637\pngwutil.c(133) : note: index 'entry_size' range checked by comparison on this line
-  D:\Education\libpng-VisualStudio2019\lpng1637\pngwio.c(37) : note: feeds call on this line
 D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(191): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
   D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(3184) : note: index '' range checked by comparison on this line
   D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(191) : note: feeds call on this line
@@ -247,27 +268,6 @@ D:\Education\libpng-VisualStudio2019\lpng1637\pngmem.c(95): warning C5045: Compi
 D:\Education\libpng-VisualStudio2019\lpng1637\pngmem.c(91): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
   D:\Education\libpng-VisualStudio2019\lpng1637\pngmem.c(83) : note: index 'num_entries' range checked by comparison on this line
   D:\Education\libpng-VisualStudio2019\lpng1637\pngmem.c(91) : note: feeds call on this line
-D:\Education\libpng-VisualStudio2019\zlib\deflate.c(1000): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-  D:\Education\libpng-VisualStudio2019\zlib\deflate.c(770) : note: index 'flush' range checked by comparison on this line
-  D:\Education\libpng-VisualStudio2019\zlib\deflate.c(1000) : note: feeds call on this line
-D:\Education\libpng-VisualStudio2019\zlib\crc32.c(222): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-  D:\Education\libpng-VisualStudio2019\zlib\deflate.c(966) : note: index 'beg' range checked by comparison on this line
-  D:\Education\libpng-VisualStudio2019\zlib\crc32.c(222) : note: feeds call on this line
-D:\Education\libpng-VisualStudio2019\zlib\crc32.c(220): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-  D:\Education\libpng-VisualStudio2019\zlib\deflate.c(966) : note: index 'beg' range checked by comparison on this line
-  D:\Education\libpng-VisualStudio2019\zlib\crc32.c(220) : note: feeds call on this line
-D:\Education\libpng-VisualStudio2019\zlib\crc32.c(222): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-  D:\Education\libpng-VisualStudio2019\zlib\deflate.c(944) : note: index 'beg' range checked by comparison on this line
-  D:\Education\libpng-VisualStudio2019\zlib\crc32.c(222) : note: feeds call on this line
-D:\Education\libpng-VisualStudio2019\zlib\crc32.c(220): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-  D:\Education\libpng-VisualStudio2019\zlib\deflate.c(944) : note: index 'beg' range checked by comparison on this line
-  D:\Education\libpng-VisualStudio2019\zlib\crc32.c(220) : note: feeds call on this line
-D:\Education\libpng-VisualStudio2019\zlib\crc32.c(222): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-  D:\Education\libpng-VisualStudio2019\zlib\deflate.c(922) : note: index 'beg' range checked by comparison on this line
-  D:\Education\libpng-VisualStudio2019\zlib\crc32.c(222) : note: feeds call on this line
-D:\Education\libpng-VisualStudio2019\zlib\crc32.c(220): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-  D:\Education\libpng-VisualStudio2019\zlib\deflate.c(922) : note: index 'beg' range checked by comparison on this line
-  D:\Education\libpng-VisualStudio2019\zlib\crc32.c(220) : note: feeds call on this line
 D:\Education\libpng-VisualStudio2019\lpng1637\pngwrite.c(1872): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
   D:\Education\libpng-VisualStudio2019\lpng1637\pngwrite.c(1861) : note: index 'channels' range checked by comparison on this line
   D:\Education\libpng-VisualStudio2019\lpng1637\pngwrite.c(1679) : note: feeds memory load on this line
@@ -283,9 +283,15 @@ D:\Education\libpng-VisualStudio2019\lpng1637\pngwrite.c(1835): warning C5045: C
 D:\Education\libpng-VisualStudio2019\lpng1637\pngwutil.c(1365): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
   D:\Education\libpng-VisualStudio2019\lpng1637\pngwutil.c(1357) : note: index 'num_trans$GSCopy' range checked by comparison on this line
   D:\Education\libpng-VisualStudio2019\lpng1637\pngwutil.c(1365) : note: feeds call on this line
-D:\Education\libpng-VisualStudio2019\lpng1637\pngrtran.c(1062): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-  D:\Education\libpng-VisualStudio2019\lpng1637\png.c(3320) : note: index 'r' range checked by comparison on this line
-  D:\Education\libpng-VisualStudio2019\lpng1637\pngrtran.c(1062) : note: feeds call on this line
+D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2913): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+  D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2912) : note: index 'length' range checked by comparison on this line
+  D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2913) : note: feeds call on this line
+D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2905): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+  D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2902) : note: index 'length' range checked by comparison on this line
+  D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2905) : note: feeds call on this line
+D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2897): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+  D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2883) : note: index '' range checked by comparison on this line
+  D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2897) : note: feeds call on this line
 D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2461): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
   D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2441) : note: index '' range checked by comparison on this line
   D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2461) : note: feeds call on this line
@@ -307,15 +313,9 @@ D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2412): warning C5045: C
 D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2404): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
   D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2402) : note: index 'length' range checked by comparison on this line
   D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2404) : note: feeds call on this line
-D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2913): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-  D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2912) : note: index 'length' range checked by comparison on this line
-  D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2913) : note: feeds call on this line
-D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2905): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-  D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2902) : note: index 'length' range checked by comparison on this line
-  D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2905) : note: feeds call on this line
-D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2897): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-  D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2883) : note: index '' range checked by comparison on this line
-  D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2897) : note: feeds call on this line
+D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(1060): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+  D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(961) : note: index 'length$GSCopy' range checked by comparison on this line
+  D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(1060) : note: feeds call on this line
 D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2057): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
   D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2048) : note: index 'length' range checked by comparison on this line
   D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2057) : note: feeds call on this line
@@ -331,18 +331,15 @@ D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2064): warning C5045: C
 D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2050): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
   D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2048) : note: index 'length' range checked by comparison on this line
   D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2050) : note: feeds call on this line
-D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(1060): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-  D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(961) : note: index 'length$GSCopy' range checked by comparison on this line
-  D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(1060) : note: feeds call on this line
 D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(907): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
   D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(26) : note: index 'uval' range checked by comparison on this line
   D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(907) : note: feeds call on this line
+D:\Education\libpng-VisualStudio2019\lpng1637\pngrtran.c(1062): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+  D:\Education\libpng-VisualStudio2019\lpng1637\png.c(3320) : note: index 'r' range checked by comparison on this line
+  D:\Education\libpng-VisualStudio2019\lpng1637\pngrtran.c(1062) : note: feeds call on this line
 D:\Education\libpng-VisualStudio2019\lpng1637\pngrtran.c(402): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
   D:\Education\libpng-VisualStudio2019\lpng1637\pngrtran.c(277) : note: index 'output_gamma' range checked by comparison on this line
   D:\Education\libpng-VisualStudio2019\lpng1637\pngrtran.c(402) : note: feeds call on this line
-D:\Education\libpng-VisualStudio2019\lpng1637\pngrtran.c(171): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-  D:\Education\libpng-VisualStudio2019\lpng1637\png.c(3320) : note: index 'r' range checked by comparison on this line
-  D:\Education\libpng-VisualStudio2019\lpng1637\pngrtran.c(171) : note: feeds call on this line
 D:\Education\libpng-VisualStudio2019\lpng1637\pngset.c(1239): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
   D:\Education\libpng-VisualStudio2019\lpng1637\pngset.c(1205) : note: index 'num_unknowns' range checked by comparison on this line
   D:\Education\libpng-VisualStudio2019\lpng1637\pngset.c(1239) : note: feeds call on this line
@@ -358,6 +355,9 @@ D:\Education\libpng-VisualStudio2019\lpng1637\pngset.c(1081): warning C5045: Com
 D:\Education\libpng-VisualStudio2019\lpng1637\pngset.c(811): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
   D:\Education\libpng-VisualStudio2019\lpng1637\pngset.c(797) : note: index '' range checked by comparison on this line
   D:\Education\libpng-VisualStudio2019\lpng1637\pngset.c(811) : note: feeds call on this line
+D:\Education\libpng-VisualStudio2019\lpng1637\pngrtran.c(171): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+  D:\Education\libpng-VisualStudio2019\lpng1637\png.c(3320) : note: index 'r' range checked by comparison on this line
+  D:\Education\libpng-VisualStudio2019\lpng1637\pngrtran.c(171) : note: feeds call on this line
 D:\Education\libpng-VisualStudio2019\lpng1637\pngerror.c(397): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
   D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2972) : note: index 'ret' range checked by comparison on this line
   D:\Education\libpng-VisualStudio2019\lpng1637\pngerror.c(397) : note: feeds call on this line
@@ -370,15 +370,33 @@ D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2993): warning C5045: C
 D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2973): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
   D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2972) : note: index 'ret' range checked by comparison on this line
   D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2973) : note: feeds call on this line
+D:\Education\libpng-VisualStudio2019\lpng1637\png.c(1147): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+  D:\Education\libpng-VisualStudio2019\lpng1637\png.c(1130) : note: index 'gAMA' range checked by comparison on this line
+  D:\Education\libpng-VisualStudio2019\lpng1637\png.c(1147) : note: feeds call on this line
 D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2818): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
   D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2809) : note: index 'length' range checked by comparison on this line
   D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2818) : note: feeds call on this line
 D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2673): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
   D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2658) : note: index 'length' range checked by comparison on this line
   D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2673) : note: feeds call on this line
-D:\Education\libpng-VisualStudio2019\lpng1637\png.c(1147): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-  D:\Education\libpng-VisualStudio2019\lpng1637\png.c(1130) : note: index 'gAMA' range checked by comparison on this line
-  D:\Education\libpng-VisualStudio2019\lpng1637\png.c(1147) : note: feeds call on this line
+D:\Education\libpng-VisualStudio2019\lpng1637\png.c(2163): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+  D:\Education\libpng-VisualStudio2019\lpng1637\png.c(2134) : note: index '' range checked by comparison on this line
+  D:\Education\libpng-VisualStudio2019\lpng1637\png.c(2163) : note: feeds call on this line
+D:\Education\libpng-VisualStudio2019\lpng1637\png.c(2145): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+  D:\Education\libpng-VisualStudio2019\lpng1637\png.c(2134) : note: index '' range checked by comparison on this line
+  D:\Education\libpng-VisualStudio2019\lpng1637\png.c(2145) : note: feeds call on this line
+D:\Education\libpng-VisualStudio2019\lpng1637\png.c(2155): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+  D:\Education\libpng-VisualStudio2019\lpng1637\png.c(2134) : note: index '' range checked by comparison on this line
+  D:\Education\libpng-VisualStudio2019\lpng1637\png.c(2155) : note: feeds call on this line
+D:\Education\libpng-VisualStudio2019\lpng1637\png.c(2053): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+  D:\Education\libpng-VisualStudio2019\lpng1637\png.c(2052) : note: index 'temp' range checked by comparison on this line
+  D:\Education\libpng-VisualStudio2019\lpng1637\png.c(2053) : note: feeds call on this line
+D:\Education\libpng-VisualStudio2019\lpng1637\png.c(2046): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+  D:\Education\libpng-VisualStudio2019\lpng1637\png.c(2045) : note: index 'temp' range checked by comparison on this line
+  D:\Education\libpng-VisualStudio2019\lpng1637\png.c(2046) : note: feeds call on this line
+D:\Education\libpng-VisualStudio2019\lpng1637\png.c(1974): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+  D:\Education\libpng-VisualStudio2019\lpng1637\png.c(1973) : note: index 'profile_length' range checked by comparison on this line
+  D:\Education\libpng-VisualStudio2019\lpng1637\png.c(1974) : note: feeds call on this line
 D:\Education\libpng-VisualStudio2019\lpng1637\pngerror.c(521): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
   D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2358) : note: index 'endptr' range checked by comparison on this line
   D:\Education\libpng-VisualStudio2019\lpng1637\pngerror.c(521) : note: feeds call on this line
@@ -415,24 +433,6 @@ D:\Education\libpng-VisualStudio2019\lpng1637\pngerror.c(521): warning C5045: Co
 D:\Education\libpng-VisualStudio2019\lpng1637\pngerror.c(518): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
   D:\Education\libpng-VisualStudio2019\lpng1637\pngrutil.c(2302) : note: index '' range checked by comparison on this line
   D:\Education\libpng-VisualStudio2019\lpng1637\pngerror.c(518) : note: feeds call on this line
-D:\Education\libpng-VisualStudio2019\lpng1637\png.c(1974): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-  D:\Education\libpng-VisualStudio2019\lpng1637\png.c(1973) : note: index 'profile_length' range checked by comparison on this line
-  D:\Education\libpng-VisualStudio2019\lpng1637\png.c(1974) : note: feeds call on this line
-D:\Education\libpng-VisualStudio2019\lpng1637\png.c(2163): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-  D:\Education\libpng-VisualStudio2019\lpng1637\png.c(2134) : note: index '' range checked by comparison on this line
-  D:\Education\libpng-VisualStudio2019\lpng1637\png.c(2163) : note: feeds call on this line
-D:\Education\libpng-VisualStudio2019\lpng1637\png.c(2145): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-  D:\Education\libpng-VisualStudio2019\lpng1637\png.c(2134) : note: index '' range checked by comparison on this line
-  D:\Education\libpng-VisualStudio2019\lpng1637\png.c(2145) : note: feeds call on this line
-D:\Education\libpng-VisualStudio2019\lpng1637\png.c(2155): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-  D:\Education\libpng-VisualStudio2019\lpng1637\png.c(2134) : note: index '' range checked by comparison on this line
-  D:\Education\libpng-VisualStudio2019\lpng1637\png.c(2155) : note: feeds call on this line
-D:\Education\libpng-VisualStudio2019\lpng1637\png.c(2053): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-  D:\Education\libpng-VisualStudio2019\lpng1637\png.c(2052) : note: index 'temp' range checked by comparison on this line
-  D:\Education\libpng-VisualStudio2019\lpng1637\png.c(2053) : note: feeds call on this line
-D:\Education\libpng-VisualStudio2019\lpng1637\png.c(2046): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-  D:\Education\libpng-VisualStudio2019\lpng1637\png.c(2045) : note: index 'temp' range checked by comparison on this line
-  D:\Education\libpng-VisualStudio2019\lpng1637\png.c(2046) : note: feeds call on this line
 D:\Education\libpng-VisualStudio2019\lpng1637\pngwutil.c(1053): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
   D:\Education\libpng-VisualStudio2019\lpng1637\pngwutil.c(1052) : note: index 'size' range checked by comparison on this line
   D:\Education\libpng-VisualStudio2019\lpng1637\pngwutil.c(1053) : note: feeds call on this line
@@ -457,15 +457,6 @@ D:\Education\libpng-VisualStudio2019\lpng1637\pngwutil.c(1691): warning C5045: C
 D:\Education\libpng-VisualStudio2019\lpng1637\pngwutil.c(1690): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
   D:\Education\libpng-VisualStudio2019\lpng1637\pngwutil.c(1656) : note: index '' range checked by comparison on this line
   D:\Education\libpng-VisualStudio2019\lpng1637\pngwutil.c(1690) : note: feeds call on this line
-D:\Education\libpng-VisualStudio2019\lpng1637\pngwutil.c(1617): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-  D:\Education\libpng-VisualStudio2019\lpng1637\pngwutil.c(1597) : note: index '' range checked by comparison on this line
-  D:\Education\libpng-VisualStudio2019\lpng1637\pngwutil.c(1617) : note: feeds call on this line
-D:\Education\libpng-VisualStudio2019\lpng1637\pngwutil.c(1605): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-  D:\Education\libpng-VisualStudio2019\lpng1637\pngwutil.c(1597) : note: index '' range checked by comparison on this line
-  D:\Education\libpng-VisualStudio2019\lpng1637\pngwutil.c(1605) : note: feeds call on this line
-D:\Education\libpng-VisualStudio2019\lpng1637\pngwutil.c(1604): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-  D:\Education\libpng-VisualStudio2019\lpng1637\pngwutil.c(1597) : note: index '' range checked by comparison on this line
-  D:\Education\libpng-VisualStudio2019\lpng1637\pngwutil.c(1604) : note: feeds call on this line
 D:\Education\libpng-VisualStudio2019\lpng1637\pngwutil.c(1172): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
   D:\Education\libpng-VisualStudio2019\lpng1637\pngwutil.c(1155) : note: index '' range checked by comparison on this line
   D:\Education\libpng-VisualStudio2019\lpng1637\pngwutil.c(1172) : note: feeds call on this line
@@ -475,6 +466,15 @@ D:\Education\libpng-VisualStudio2019\lpng1637\pngwutil.c(1164): warning C5045: C
 D:\Education\libpng-VisualStudio2019\lpng1637\pngwutil.c(1163): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
   D:\Education\libpng-VisualStudio2019\lpng1637\pngwutil.c(1155) : note: index '' range checked by comparison on this line
   D:\Education\libpng-VisualStudio2019\lpng1637\pngwutil.c(1163) : note: feeds call on this line
+D:\Education\libpng-VisualStudio2019\lpng1637\pngwutil.c(1617): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+  D:\Education\libpng-VisualStudio2019\lpng1637\pngwutil.c(1597) : note: index '' range checked by comparison on this line
+  D:\Education\libpng-VisualStudio2019\lpng1637\pngwutil.c(1617) : note: feeds call on this line
+D:\Education\libpng-VisualStudio2019\lpng1637\pngwutil.c(1605): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+  D:\Education\libpng-VisualStudio2019\lpng1637\pngwutil.c(1597) : note: index '' range checked by comparison on this line
+  D:\Education\libpng-VisualStudio2019\lpng1637\pngwutil.c(1605) : note: feeds call on this line
+D:\Education\libpng-VisualStudio2019\lpng1637\pngwutil.c(1604): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+  D:\Education\libpng-VisualStudio2019\lpng1637\pngwutil.c(1597) : note: index '' range checked by comparison on this line
+  D:\Education\libpng-VisualStudio2019\lpng1637\pngwutil.c(1604) : note: feeds call on this line
 D:\Education\libpng-VisualStudio2019\lpng1637\pngset.c(194): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
   D:\Education\libpng-VisualStudio2019\lpng1637\png.c(3320) : note: index 'r' range checked by comparison on this line
   D:\Education\libpng-VisualStudio2019\lpng1637\pngset.c(194) : note: feeds call on this line

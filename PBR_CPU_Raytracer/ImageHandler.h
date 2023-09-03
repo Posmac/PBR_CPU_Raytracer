@@ -7,37 +7,32 @@
 #include <iostream>
 #include <vector>
 
-#include "zlib/zlib.h"
-#include "libpng/png.h"
+#include "Core.h"
+#include "stb_image.h"
+#include "stb_image_write.h"
 
 #include "glm/glm.hpp"
 
 namespace pbr
 {
-    struct ImageData
+    namespace util
     {
-        int Width;
-        int Height;
-        png_bytep* Row_pointers;
-        
-    };
+        struct ImageData
+        {
+            int Width;
+            int Height;
+            int NrChannels;
+            uint8_t* Data;
 
-    struct FileReadOpenData
-    {
-        explicit FileReadOpenData(ImageData* data);
-        png_byte Color_type;
-        png_byte Bit_depth;
-        ImageData* Data;
-    };
+            void Init(int width, int height);
+        };
 
-    struct FileWriteOpenData
-    {
-        explicit FileWriteOpenData(ImageData* data);
-        ImageData* Data;
-    };
-
-    void ReadPng(const std::string& path, FileReadOpenData* imageData);
-    void WriteToPng(const std::string& path, FileWriteOpenData* imageData);
-    void WriteColor(glm::vec4& color, FileWriteOpenData* imageData);
-    void FreeMemory(ImageData* imageData);
+        void ReadPng(const std::string& path, ImageData* imageData);
+        void WriteToPng(std::string path, ImageData* imageData);
+        void WriteColor(const glm::vec4& color, ImageData* imageData);
+        void SetPixelColor(const glm::ivec2& pixel,
+                           const glm::vec4& color,
+                           ImageData* imageData);
+        void FreeMemory(ImageData* imageData);
+    }
 }

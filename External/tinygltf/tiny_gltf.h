@@ -7532,7 +7532,6 @@ namespace tinygltf
             }
         }
 
-        std::cout << v << std::endl;
         return true;
     }
 

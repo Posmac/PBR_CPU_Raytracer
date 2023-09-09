@@ -7,9 +7,7 @@ namespace pbr
                    float fov, 
                    float near, 
                    float far,
-                   const glm::vec3& eye,
-                   const glm::vec3& lookAt,
-                   const glm::vec3& up)
+                   const glm::mat4& viewMatrix)
     {
         m_Width = width;
         m_Height = height;
@@ -17,7 +15,7 @@ namespace pbr
         m_Near = near;
         m_Far = far;
 
-        m_ViewMatrix = glm::lookAt(eye, lookAt, up);
+        m_ViewMatrix = viewMatrix;
         m_ProjectionMatrix = glm::perspective(glm::radians(fov), static_cast<float>(width) / static_cast<float>(height), 
                                               near, far);
 

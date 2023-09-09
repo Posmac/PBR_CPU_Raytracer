@@ -13,9 +13,7 @@ namespace pbr
                float fov = 60.0, 
                float near = 0.1f, 
                float far = 100.0f,
-               const glm::vec3& eye = glm::vec3(0, -1, 0),
-               const glm::vec3& lookAt = glm::vec3(0, 0, 0),
-               const glm::vec3& up = glm::vec3(0, 1, 0));
+               const glm::mat4& viewMatrix = glm::mat4(1.0));
 
     private:
         int m_Width;

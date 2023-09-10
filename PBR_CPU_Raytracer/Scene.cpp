@@ -7,7 +7,7 @@ namespace pbr
 
     }
 
-    void Scene::Init(tinygltf::Model* model, float height)
+    void Scene::Init(tinygltf::Model* model, glm::ivec2* imageSize)
     {
         for(auto& scene : model->scenes)
         {
@@ -26,10 +26,9 @@ namespace pbr
                         float znear = camera->perspective.znear;
                         float zfar = camera->perspective.zfar;
 
-                        float width = height * aspectRatio;
-                        float fovDegres = glm::degrees(yFov);
+                        imageSize->x = imageSize->y * aspectRatio;
 
-                        m_Cameras.emplace_back(Camera(width, height, fovDegres, znear, zfar, viewMatrix));
+                        m_Cameras.emplace_back(Camera(aspectRatio, yFov * 2.0f, znear, zfar, viewMatrix));
                     }
                 }
                 else
@@ -50,12 +49,8 @@ namespace pbr
                     if(curNode->mesh != -1)
                     {
                         tinygltf::Mesh* curMesh = &model->meshes[curNode->mesh];
-                        Mesh mesh;
-                        mesh.Name = curMesh->name;
-                        mesh.ModelMatrix = GetNodeMatrix(curNode);
-                        std::vector<Vertex>& vertices = mesh.Vertices;
-                        std::vector<Triangle>& triangles = mesh.Triangles;
-                        m_Meshes.push_back(mesh);
+                        std::vector<Vertex> vertices;
+                        std::vector<Triangle> triangles;
 
                         for(auto& primitive : curMesh->primitives)
                         {
@@ -171,15 +166,18 @@ namespace pbr
                                 }
                             }
                         }
+
+                        Mesh mesh;
+                        mesh.Name = curMesh->name;
+                        mesh.ModelMatrix = GetNodeMatrix(curNode);
+                        mesh.InvModelMatrix = glm::inverse(mesh.ModelMatrix);
+                        mesh.Vertices = std::move(vertices);
+                        mesh.Triangles = std::move(triangles);
+                        m_Meshes.push_back(std::move(mesh));
                     }
                 }
             }
         }
-    }
-
-    void Scene::Render()
-    {
-
     }
 
     glm::mat4 Scene::GetNodeMatrix(tinygltf::Node* node)
@@ -225,6 +223,40 @@ namespace pbr
         }
 
         return matrix;
+    }
+
+    void Scene::Render(Film* film)
+    {
+        for(int x = 0; x < film->Width; x++)
+        {
+            for(int y = 0; y < film->Height; y++)
+            {
+                float xStep = static_cast<float>(x) / static_cast<float>(film->Width);
+                float yStep = static_cast<float>(film->Height - y) / static_cast<float>(film->Height);
+                glm::vec4 color = GetPixelColor(xStep, yStep);
+                film->SetPixelColor({ x, y }, color);
+            }
+        }
+    }
+
+    glm::vec4 Scene::GetPixelColor(float x, float y)
+    {
+        Ray ray{};
+        glm::vec3 pixelPos = m_Cameras[0].PixelPos(x, y);
+        glm::vec3 camPos = m_Cameras[0].Position();
+        ray.Direction = glm::normalize(pixelPos - camPos);
+        ray.Position = camPos;
+        ray.Distance = std::numeric_limits<float>::infinity();
+
+        for(auto& mesh : m_Meshes)
+        {
+            if(mesh.FindIntersection(&ray))
+            {
+                return { 1, 0, 1, 1 };
+            }
+        }
+
+        return { 0.2, 0.2, 0.2, 1 };
     }
 }
 

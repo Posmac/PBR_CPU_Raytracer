@@ -148,6 +148,7 @@
     <ClInclude Include="GltfLoader.h" />
     <ClInclude Include="ImageHandler.h" />
     <ClInclude Include="Primitive.h" />
+    <ClInclude Include="Ray.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Core.h" />
     <ClInclude Include="Film.h" />

@@ -53,10 +53,10 @@ namespace pbr
                            ImageData* imageData)
         {
             int pixelIndex = (pixel.y * imageData->Width + pixel.x) * imageData->NrChannels;
-            imageData->Data[pixelIndex + 0] = color.r;
-            imageData->Data[pixelIndex + 1] = color.g;
-            imageData->Data[pixelIndex + 2] = color.b;
-            imageData->Data[pixelIndex + 3] = color.a; 
+            imageData->Data[pixelIndex + 0] = color.r * 255.0f;
+            imageData->Data[pixelIndex + 1] = color.g * 255.0f;
+            imageData->Data[pixelIndex + 2] = color.b * 255.0f;
+            imageData->Data[pixelIndex + 3] = color.a * 255.0f; 
         }
 
         void FreeMemory(ImageData* imageData)

@@ -2,7 +2,9 @@
 
 #include <vector>
 #include <array>
+#include <string>
 
+#include "Ray.h"
 #include "glm/glm.hpp"
 
 namespace pbr
@@ -25,6 +27,10 @@ namespace pbr
         std::vector<Vertex> Vertices;
         std::vector<Triangle> Triangles;
         glm::mat4 ModelMatrix;
+        glm::mat4 InvModelMatrix;
         glm::vec4 BoundingBox; //empty for now
+
+        bool FindIntersection(Ray* ray);
+        bool FindIntersectionInternal(Ray* ray, const Triangle* triangle);
     };
 }

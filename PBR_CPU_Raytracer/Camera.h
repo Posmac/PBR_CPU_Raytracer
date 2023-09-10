@@ -8,16 +8,16 @@ namespace pbr
     class Camera
     {
     public:
-        Camera(int width = 1280.0, 
-               int height = 720.0, 
-               float fov = 60.0, 
+        Camera(float aspectRatio = 1.77f, 
+               float fov = 60.0f, 
                float near = 0.1f, 
                float far = 100.0f,
                const glm::mat4& viewMatrix = glm::mat4(1.0));
+        glm::vec3 PixelPos(float x, float y);
+        glm::vec3 Position();
 
     private:
-        int m_Width;
-        int m_Height;
+        float m_AspectRatio;
         float m_Near;
         float m_Far;
         float m_Fov;//in degrees
@@ -33,11 +33,12 @@ namespace pbr
         glm::vec4 m_BlCornerNdc;
         glm::vec4 m_TlCornerNdc;
         glm::vec4 m_BrCornerNdc;
-        glm::vec4 m_TrCornerNdc;
 
         glm::vec4 m_BlCornerWorld;
         glm::vec4 m_TlCornerWorld;
         glm::vec4 m_BrCornerWorld;
-        glm::vec4 m_TrCornerWorld;
+
+        glm::vec4 m_RightDirection;
+        glm::vec4 m_UpDirection;
     };
 }

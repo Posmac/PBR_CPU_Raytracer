@@ -4,19 +4,20 @@
 
 namespace pbr
 {
-    Camera::Camera(float aspectRatio,
-                   float fov, 
-                   float near, 
+    Camera::Camera(float fov,
+                   float near,
                    float far,
+                   const glm::vec2& screenSize,
                    const glm::mat4& viewMatrix)
     {
-        m_AspectRatio = aspectRatio;
+        m_AspectRatio = screenSize.x / screenSize.y;
         m_Fov = fov;
         m_Near = near;
         m_Far = far;
+        m_ScreenSize = screenSize;
 
-        m_ViewMatrix = glm::inverse(viewMatrix);
-        m_ProjectionMatrix = glm::perspectiveRH_ZO(fov, aspectRatio, near, far);
+        m_ViewMatrix = viewMatrix;
+        m_ProjectionMatrix = glm::perspectiveRH_ZO(fov, m_AspectRatio, near, far);
 
         m_ViewProjMatrix = m_ProjectionMatrix * m_ViewMatrix;
         m_InvViewMatrix = glm::inverse(m_ViewMatrix);

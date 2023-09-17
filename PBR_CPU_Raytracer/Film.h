@@ -15,7 +15,6 @@ namespace pbr
     public:
         int Width;
         int Height;
-    private:
-        util::ImageData m_ImageData;
+        util::ImageData ImageData;
     };
 }

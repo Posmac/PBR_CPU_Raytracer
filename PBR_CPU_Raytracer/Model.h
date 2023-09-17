@@ -5,6 +5,7 @@
 #include <string>
 
 #include "Ray.h"
+#include "Globals.h"
 #include "glm/glm.hpp"
 
 namespace pbr
@@ -19,6 +20,7 @@ namespace pbr
         glm::vec3 Position;
         glm::vec3 Normal;
         glm::vec2 TexCoords;
+        glm::vec3 Color;
     };
 
     struct Mesh
@@ -31,6 +33,6 @@ namespace pbr
         glm::vec4 BoundingBox; //empty for now
 
         bool FindIntersection(Ray* ray);
-        bool FindIntersectionInternal(Ray* ray, const Triangle* triangle);
+        bool FindIntersectionInternal(Ray* ray, const Triangle* triangle, bool* outIntersectionFound);
     };
 }

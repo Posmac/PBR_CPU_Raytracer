@@ -13,6 +13,7 @@ namespace pbr
 
         glm::vec3 Direction;
         glm::vec3 Position;
+        glm::vec3 Color;
 
         float Distance;
     };

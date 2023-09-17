@@ -1,29 +1,24 @@
 #include "Model.h"
-
-#include <iostream>
+#include "Globals.h"
 
 namespace pbr
 {
     bool Mesh::FindIntersection(Ray* ray)
     {
-        glm::vec3 localRayDir = InvModelMatrix * glm::vec4(ray->Direction, 1.0);
-        glm::vec3 localRayPos = InvModelMatrix * glm::vec4(ray->Position, 1.0);
-        bool intersectionFound = false;
-
         Ray localRay;
-        localRay.Direction = localRayDir;
-        localRay.Position = localRayPos;
+        localRay.Direction = glm::normalize(InvModelMatrix * glm::vec4(ray->Direction, 0.0));
+        localRay.Position = InvModelMatrix * glm::vec4(ray->Position, 1.0);
         localRay.Distance = ray->Distance;
 
+        bool intersectionFound = false;
         for(auto& triangle : Triangles)
         {
-            intersectionFound = FindIntersectionInternal(&localRay, &triangle);
+            FindIntersectionInternal(&localRay, &triangle, &intersectionFound);
         }
-
         return intersectionFound;
     }
 
-    bool Mesh::FindIntersectionInternal(Ray* ray, const Triangle* triangle)
+    bool Mesh::FindIntersectionInternal(Ray* ray, const Triangle* triangle, bool* outIntersectionFound)
     {
         glm::vec3 triangleNormal = (Vertices[triangle->Indices[0]].Normal +
                                     Vertices[triangle->Indices[1]].Normal +
@@ -32,6 +27,7 @@ namespace pbr
         float denom = glm::dot(triangleNormal, ray->Direction);
         if(abs(denom) < 0.001f)
         {
+            //LogInfo("denom");
             return false;
         }
 
@@ -40,8 +36,11 @@ namespace pbr
 
         if(t < 0)
         {
+            //LogInfo("distanceToPlane " + std::to_string(t));
             return false;
         }
+
+        //LogInfo("others");
 
         glm::vec3 point = ray->Position + ray->Direction * t;
 
@@ -80,7 +79,13 @@ namespace pbr
             return false;
         }
 
+        /*LogInfo("Intersected triangle nr ");
+        LogVec3({ triangle->Indices[0], triangle->Indices[1], triangle->Indices[2] });
+        LogVec3(triangleNormal);*/
+
         ray->Distance = t;
+        *outIntersectionFound = true;
+        //ray->Color = Vertices[triangle->Indices[2]].Position;
 
         return true;
     }

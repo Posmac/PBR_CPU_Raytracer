@@ -1,4 +1,5 @@
 #include "Scene.h"
+#include <fstream>
 
 namespace pbr
 {
@@ -9,216 +10,239 @@ namespace pbr
 
     void Scene::Init(tinygltf::Model* model, glm::ivec2* imageSize)
     {
-        for(auto& scene : model->scenes)
+        for(int node = 0; node < model->nodes.size(); node++)
         {
-            for(auto& node : scene.nodes)
+            tinygltf::Node* curNode = &model->nodes[node];
+            glm::mat4 nodeMatrix = GetNodeMatrix(curNode);
+            LoadNode(model, curNode, glm::mat4(1.0), imageSize);
+            if(!curNode->children.empty())
             {
-                tinygltf::Node* curNode = &model->nodes[node];
-                //if out node is camera
-                if(curNode->camera != -1)
+                for(int childNode = 0; childNode < curNode->children.size(); childNode++)
                 {
-                    tinygltf::Camera* camera = &model->cameras[curNode->camera];
-                    if(camera->type == "perspective")
-                    {
-                        glm::mat4 viewMatrix = GetNodeMatrix(curNode);
-                        float yFov = camera->perspective.yfov;
-                        float aspectRatio = camera->perspective.aspectRatio;
-                        float znear = camera->perspective.znear;
-                        float zfar = camera->perspective.zfar;
-
-                        imageSize->x = imageSize->y * aspectRatio;
-
-                        m_Cameras.emplace_back(Camera(aspectRatio, yFov * 2.0f, znear, zfar, viewMatrix));
-                    }
+                    int index = curNode->children[childNode];
+                    LoadNode(model, &model->nodes[index], nodeMatrix, imageSize);
+                    node++;
                 }
-                else
+            }
+        }
+
+        if(m_Cameras.empty())
+        {
+            LogInfo("Gltf file dont contain any camera, created basic one");
+            glm::mat4 view = glm::lookAtRH(glm::vec3(0, 0, -5), glm::vec3(0), glm::vec3(0, 1, 0));
+            imageSize->x = WIDTH;
+            imageSize->y = HEIGHT;
+            m_Cameras.emplace_back(Camera(glm::radians(60.0f), 0.1f, 1000.0f, *imageSize, view));
+
+        }
+    }
+
+    void Scene::LoadNode(tinygltf::Model* model, tinygltf::Node* node, const glm::mat4& parentNodeMatrix, glm::ivec2* imageSize)
+    {
+        //if out node is camera
+        if(node->camera != -1)
+        {
+            tinygltf::Camera* camera = &model->cameras[node->camera];
+            if(camera->type == "perspective")
+            {
+                float yFov = camera->perspective.yfov;
+                float aspectRatio = camera->perspective.aspectRatio;
+                float znear = camera->perspective.znear;
+                float zfar = camera->perspective.zfar;
+
+                glm::mat4 view = GetNodeMatrix(node) * parentNodeMatrix;
+                //imageSize->x = imageSize->y * aspectRatio;
+                //m_Cameras.emplace_back(Camera(aspectRatio, yFov * 2.0f, znear, zfar, *imageSize, glm::inverse(view)));
+            }
+        }
+        else
+        {
+            //otherwise is point light source
+            if(node->light != -1)
+            {
+                PointLight light{};
+                light.WorldMatrix = GetNodeMatrix(node);
+                m_PointLights.emplace_back(light);
+                return;
+            }
+
+            //otherwise is mesh
+            //parse only meshes for now
+            if(node->mesh != -1)
+            {
+                tinygltf::Mesh* curMesh = &model->meshes[node->mesh];
+                std::vector<Vertex> vertices;
+                std::vector<Triangle> triangles;
+
+                std::unordered_set<glm::vec3> uniquePos;
+
+                for(auto& primitive : curMesh->primitives)
                 {
-                    //otherwise is point light source
-                    if(curNode->light != -1)
+                    //render mode
+                    int mode = primitive.mode;
+                    //load indices 
+                    if(primitive.indices > -1)
                     {
-                        PointLight light{};
-                        light.WorldMatrix = GetNodeMatrix(curNode);
-                        m_PointLights.emplace_back(light);
-                        continue;
+                        tinygltf::Accessor* indicesAccessor = &model->accessors[primitive.indices];
+
+                        auto& bufferView = model->bufferViews[indicesAccessor->bufferView];
+                        auto& buffer = model->buffers[bufferView.buffer];
+
+                        triangles.resize(indicesAccessor->count / 3);
+                        auto lenghtInBytes = (bufferView.byteLength / indicesAccessor->count) * 3;
+
+                        switch(indicesAccessor->componentType)
+                        {
+                            case TINYGLTF_COMPONENT_TYPE_UNSIGNED_BYTE:
+                            {
+                                for(int i = 0; i < triangles.size(); i++)
+                                {
+                                    std::array<uint8_t, 3> indices;
+                                    memcpy(indices.data(),
+                                           buffer.data.data() + bufferView.byteOffset + lenghtInBytes * i,
+                                           3 * sizeof(uint8_t));
+                                    triangles[i].Indices[0] = static_cast<unsigned int>(indices[0]);
+                                    triangles[i].Indices[1] = static_cast<unsigned int>(indices[1]);
+                                    triangles[i].Indices[2] = static_cast<unsigned int>(indices[2]);
+                                }
+                                break;
+                            }
+                            case TINYGLTF_COMPONENT_TYPE_UNSIGNED_SHORT:
+                            {
+                                for(int i = 0; i < triangles.size(); i++)
+                                {
+                                    std::array<uint16_t, 3> indices;
+                                    memcpy(indices.data(),
+                                           buffer.data.data() + bufferView.byteOffset + lenghtInBytes * i,
+                                           3 * sizeof(uint16_t));
+                                    triangles[i].Indices[0] = static_cast<unsigned int>(indices[0]);
+                                    triangles[i].Indices[1] = static_cast<unsigned int>(indices[1]);
+                                    triangles[i].Indices[2] = static_cast<unsigned int>(indices[2]);
+                                }
+                                break;
+                            }
+                            case TINYGLTF_COMPONENT_TYPE_UNSIGNED_INT:
+                            {
+                                for(int i = 0; i < triangles.size(); i++)
+                                {
+                                    std::array<uint32_t, 3> indices;
+                                    memcpy(indices.data(),
+                                           buffer.data.data() + bufferView.byteOffset + lenghtInBytes * i,
+                                           3 * sizeof(uint32_t));
+                                    triangles[i].Indices[0] = static_cast<unsigned int>(indices[0]);
+                                    triangles[i].Indices[1] = static_cast<unsigned int>(indices[1]);
+                                    triangles[i].Indices[2] = static_cast<unsigned int>(indices[2]);
+                                }
+                                break;
+                            }
+                        }
                     }
 
-                    //otherwise is mesh
-                    
-
-                    //parse only meshes for now
-                    if(curNode->mesh != -1)
+                    //load vertices
+                    for(auto& attribute : primitive.attributes)
                     {
-                        tinygltf::Mesh* curMesh = &model->meshes[curNode->mesh];
-                        std::vector<Vertex> vertices;
-                        std::vector<Triangle> triangles;
+                        auto index = attribute.second;
+                        tinygltf::Accessor* attribAccessor = &model->accessors[index];
+                        auto& bufferView = model->bufferViews[attribAccessor->bufferView];
+                        auto& buffer = model->buffers[bufferView.buffer];
 
-                        for(auto& primitive : curMesh->primitives)
+                        //resize it once
+                        if(vertices.size() == 0)
                         {
-                            //render mode
-                            int mode = primitive.mode;
-                            //load indices 
-                            if(primitive.indices > -1)
+                            vertices.resize(attribAccessor->count);
+                        }
+
+                        auto currentPtr = bufferView.byteOffset + attribAccessor->byteOffset;
+
+                        if(attribute.first == "POSITION")
+                        {
+                            for(auto i = 0; i < attribAccessor->count; i++)
                             {
-                                tinygltf::Accessor* indicesAccessor = &model->accessors[primitive.indices];
-
-                                auto& bufferView = model->bufferViews[indicesAccessor->bufferView];
-                                auto& buffer = model->buffers[bufferView.buffer];
-
-                                triangles.resize(indicesAccessor->count / 3);
-                                auto lenghtInBytes = (bufferView.byteLength / indicesAccessor->count) * 3;
-
-                                switch(indicesAccessor->componentType)
-                                {
-                                    case TINYGLTF_COMPONENT_TYPE_UNSIGNED_BYTE:
-                                    {
-                                        for(int i = 0; i < triangles.size(); i++)
-                                        {
-                                            std::array<uint8_t, 3> indices;
-                                            memcpy(indices.data(),
-                                                   buffer.data.data() + bufferView.byteOffset + lenghtInBytes * i,
-                                                   3 * sizeof(uint8_t));
-                                            triangles[i].Indices[0] = static_cast<unsigned int>(indices[0]);
-                                            triangles[i].Indices[1] = static_cast<unsigned int>(indices[1]);
-                                            triangles[i].Indices[2] = static_cast<unsigned int>(indices[2]);
-                                        }
-                                        break;
-                                    }
-                                    case TINYGLTF_COMPONENT_TYPE_UNSIGNED_SHORT:
-                                    {
-                                        for(int i = 0; i < triangles.size(); i++)
-                                        {
-                                            std::array<uint16_t, 3> indices;
-                                            memcpy(indices.data(),
-                                                   buffer.data.data() + bufferView.byteOffset + lenghtInBytes * i,
-                                                   3 * sizeof(uint16_t));
-                                            triangles[i].Indices[0] = static_cast<unsigned int>(indices[0]);
-                                            triangles[i].Indices[1] = static_cast<unsigned int>(indices[1]);
-                                            triangles[i].Indices[2] = static_cast<unsigned int>(indices[2]);
-                                        }
-                                        break;
-                                    }
-                                    case TINYGLTF_COMPONENT_TYPE_UNSIGNED_INT:
-                                    {
-                                        for(int i = 0; i < triangles.size(); i++)
-                                        {
-                                            std::array<uint32_t, 3> indices;
-                                            memcpy(indices.data(),
-                                                   buffer.data.data() + bufferView.byteOffset + lenghtInBytes * i,
-                                                   3 * sizeof(uint32_t));
-                                            triangles[i].Indices[0] = static_cast<unsigned int>(indices[0]);
-                                            triangles[i].Indices[1] = static_cast<unsigned int>(indices[1]);
-                                            triangles[i].Indices[2] = static_cast<unsigned int>(indices[2]);
-                                        }
-                                        break;
-                                    }
-                                }
-                            }
-
-                            //load vertices
-                            for(auto& attribute : primitive.attributes)
-                            {
-                                auto index = attribute.second;
-                                tinygltf::Accessor* attribAccessor = &model->accessors[index];
-                                auto& bufferView = model->bufferViews[attribAccessor->bufferView];
-                                auto& buffer = model->buffers[bufferView.buffer];
-                                auto lenghtInBytes = bufferView.byteLength / attribAccessor->count;
-
-                                //resize it once
-                                if(vertices.size() == 0)
-                                {
-                                    vertices.resize(attribAccessor->count);
-                                }
-
-                                if(attribute.first == "POSITION")
-                                {
-                                    for(int i = 0; i < vertices.size(); i++)
-                                    {
-                                        memcpy(&vertices[i].Position,
-                                               buffer.data.data() +
-                                               bufferView.byteOffset + lenghtInBytes * i,
-                                               sizeof(Vertex::Position));
-                                    }
-                                }
-
-                                else if(attribute.first == "NORMAL")
-                                {
-                                    for(int i = 0; i < vertices.size(); i++)
-                                    {
-                                        memcpy(&vertices[i].Normal,
-                                               buffer.data.data() +
-                                               bufferView.byteOffset + lenghtInBytes * i,
-                                               sizeof(Vertex::Normal));
-                                    }
-                                }
-                                else if(attribute.first == "TEXCOORD_0")
-                                {
-                                    for(int i = 0; i < vertices.size(); i++)
-                                    {
-                                        memcpy(&vertices[i].TexCoords,
-                                               buffer.data.data() +
-                                               bufferView.byteOffset + lenghtInBytes * i,
-                                               sizeof(Vertex::TexCoords));
-                                    }
-                                }
-                                else
-                                {
-                                    MsgAssertIfTrue(true, "Attribute with of type: " + attribute.first + " isn`t supported");
-                                }
+                                auto size = std::max(bufferView.byteStride, sizeof(Vertex::Position));
+                                memcpy(&vertices[i].Position,
+                                       buffer.data.data() + currentPtr + sizeof(Vertex::Position) * i,
+                                       size);
+                                //currentPtr += bufferView.byteStride;
+                                //LogVec3(vertices[i].Position);
                             }
                         }
 
-                        Mesh mesh;
-                        mesh.Name = curMesh->name;
-                        mesh.ModelMatrix = GetNodeMatrix(curNode);
-                        mesh.InvModelMatrix = glm::inverse(mesh.ModelMatrix);
-                        mesh.Vertices = std::move(vertices);
-                        mesh.Triangles = std::move(triangles);
-                        m_Meshes.push_back(std::move(mesh));
+                        else if(attribute.first == "NORMAL")
+                        {
+                            for(auto i = 0; i < attribAccessor->count; i++)
+                            {
+                                auto size = std::max(bufferView.byteStride, sizeof(Vertex::Normal));
+                                memcpy(&vertices[i].Normal,
+                                       buffer.data.data() + currentPtr + sizeof(Vertex::Normal) * i,
+                                       size);
+                                //currentPtr += bufferView.byteStride;
+                               //LogVec3(vertices[i].Normal);
+                            }
+                        }
+                        else if(attribute.first == "TEXCOORD_0")
+                        {
+                            for(auto i = 0; i < attribAccessor->count; i++)
+                            {
+                                auto size = std::max(bufferView.byteStride, sizeof(Vertex::TexCoords));
+                                memcpy(&vertices[i].TexCoords,
+                                       buffer.data.data() + currentPtr + sizeof(Vertex::TexCoords) * i,
+                                       size);
+                                //currentPtr += bufferView.byteStride;
+                                //LogVec2(vertices[i].TexCoords);
+                            }
+                        }
+                        else
+                        {
+                            MsgAssertIfTrue(true, "Attribute with of type: " + attribute.first + " isn`t supported");
+                        }
                     }
                 }
+
+                Mesh mesh;
+                mesh.Name = curMesh->name;
+                mesh.ModelMatrix = glm::mat4(1.0);/*GetNodeMatrix(node) * parentNodeMatrix;*/
+                mesh.InvModelMatrix = glm::inverse(mesh.ModelMatrix);
+                for(auto& v : vertices)
+                {
+                    LogVec3(v.Position);
+                    LogVec3(v.Normal);
+                    LogVec2(v.TexCoords);
+                    std::cout << std::endl;
+                }
+                for(auto& t : triangles)
+                {
+                    LogVec3({ t.Indices[0], t.Indices[1], t.Indices[2] });
+                }
+                mesh.Vertices = std::move(vertices);
+                mesh.Triangles = std::move(triangles);
+                m_Meshes.push_back(std::move(mesh));
             }
         }
     }
 
     glm::mat4 Scene::GetNodeMatrix(tinygltf::Node* node)
     {
-        glm::mat4 matrix = glm::mat4(1.0);
+        glm::dmat4 matrix = glm::dmat4(1.0);
 
         if(!node->matrix.empty())
         {
-            matrix = { node->matrix[0], node->matrix[1], node->matrix[2], node->matrix[3],
-                           node->matrix[4], node->matrix[5], node->matrix[6], node->matrix[7],
-                           node->matrix[8], node->matrix[9], node->matrix[10], node->matrix[11],
-                           node->matrix[12], node->matrix[13], node->matrix[14], node->matrix[15] };
+            matrix = glm::mat4(glm::make_mat4(node->matrix.data()));
         }
         else
         {
             if(node->translation.size() != 0)
             {
-                matrix = glm::translate(matrix,
-                                        { node->translation[0],
-                                          node->translation[1],
-                                          node->translation[2] });
+                matrix = glm::translate(matrix, glm::make_vec3(node->translation.data()));
             }
 
             if(node->rotation.size() != 0)
             {
-                glm::quat q;
-                q.x = node->rotation[0];
-                q.y = node->rotation[1];
-                q.z = node->rotation[2];
-                q.w = node->rotation[3];
-                glm::quat quadMat = glm::quat_cast(matrix);
-                q = q * quadMat;
-
-                matrix = glm::mat4_cast(q);
+                matrix *= glm::toMat4(glm::make_quat(node->rotation.data()));
             }
 
             if(node->scale.size() != 0)
             {
-                matrix = glm::scale(matrix, { node->scale[0],
-                                          node->scale[1],
-                                          node->scale[2] });
+                matrix = glm::scale(matrix, glm::make_vec3(node->scale.data()));
             }
         }
 
@@ -227,14 +251,38 @@ namespace pbr
 
     void Scene::Render(Film* film)
     {
+        std::ofstream stream;
+        stream.open("RESULT_IMAGE.ppm");
+
+        if(!stream.is_open())
+        {
+            std::cout << "FFFF\n";
+        }
+
+        stream << "P3\n" << film->Width << ' ' << film->Height << "\n" << "255\n";
+
+        for(int y = 0; y < film->Height; y++)
+        {
+            for(int x = 0; x < film->Width; x++)
+            {
+                float xStep = static_cast<float>(x) / static_cast<float>(film->Width);
+                float yStep = static_cast<float>(y) / static_cast<float>(film->Height);
+                glm::vec4 color = /*{ xStep, yStep, 0, 1 }*/ GetPixelColor(xStep, yStep);
+                glm::ivec4 ncolor = color * 255.0f;
+                color = glm::clamp(ncolor, glm::ivec4(0), glm::ivec4(255));
+                stream << ncolor.x << ' ' << ncolor.y << ' ' << ncolor.z << "\n";
+            }
+        }
+        stream.close();
+
         for(int x = 0; x < film->Width; x++)
         {
             for(int y = 0; y < film->Height; y++)
             {
                 float xStep = static_cast<float>(x) / static_cast<float>(film->Width);
-                float yStep = static_cast<float>(film->Height - y) / static_cast<float>(film->Height);
-                glm::vec4 color = GetPixelColor(xStep, yStep);
-                film->SetPixelColor({ x, y }, color);
+                float yStep = static_cast<float>(y) / static_cast<float>(film->Height);
+                glm::vec4 color = /*{ xStep, yStep, 0, 1 }*/ GetPixelColor(xStep, yStep);
+                film->SetPixelColor({ x,y }, color);
             }
         }
     }
@@ -242,21 +290,19 @@ namespace pbr
     glm::vec4 Scene::GetPixelColor(float x, float y)
     {
         Ray ray{};
-        glm::vec3 pixelPos = m_Cameras[0].PixelPos(x, y);
-        glm::vec3 camPos = m_Cameras[0].Position();
-        ray.Direction = glm::normalize(pixelPos - camPos);
-        ray.Position = camPos;
+        ray.Position = m_Cameras[0].Position();
+        ray.Direction = glm::normalize(m_Cameras[0].PixelPos(x, y) - ray.Position);
         ray.Distance = std::numeric_limits<float>::infinity();
 
         for(auto& mesh : m_Meshes)
         {
             if(mesh.FindIntersection(&ray))
             {
-                return { 1, 0, 1, 1 };
+                return { 0.0, 0.0, 1.0, 1.0 };
             }
         }
 
-        return { 0.2, 0.2, 0.2, 1 };
+        return { 0.0, 0.0, 0.0, 1.0 };
     }
 }
 

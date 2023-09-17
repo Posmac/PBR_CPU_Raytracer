@@ -1,4 +1,5 @@
 #include "ImageHandler.h"
+#include <algorithm>
 
 namespace pbr
 {
@@ -9,21 +10,16 @@ namespace pbr
             Width = width;
             Height = height;
             NrChannels = 4; // default 4 channels, 8 bits each
-            Data = new uint8_t[Width * Height * NrChannels];
+            Data = new unsigned char[Width * Height * NrChannels];
         }
 
         void ReadPng(const std::string& path, ImageData* imageData)
         {
-            unsigned char* data = stbi_load(path.c_str(),
-                                            &imageData->Width,
-                                            &imageData->Height,
-                                            &imageData->NrChannels,
-                                            imageData->NrChannels);//4 channels required
-
-            if(data)
-            {
-                imageData->Data = reinterpret_cast<uint8_t*>(data);
-            }
+            imageData->Data = stbi_load(path.c_str(),
+                                        &imageData->Width,
+                                        &imageData->Height,
+                                        &imageData->NrChannels,
+                                        4);//4 channels required
         }
 
         void WriteToPng(std::string path, ImageData* imageData)
@@ -32,7 +28,7 @@ namespace pbr
                            imageData->Width, 
                            imageData->Height,
                            imageData->NrChannels, 
-                           reinterpret_cast<unsigned char*>(imageData->Data),
+                           imageData->Data,
                            imageData->Width * imageData->NrChannels);
         }
 
@@ -41,10 +37,10 @@ namespace pbr
             int size = imageData->Width * imageData->Height * imageData->NrChannels;
             for(int i = 0; i < size; i += imageData->NrChannels)
             {
-                imageData->Data[i+0] = static_cast<uint8_t>(color.r);
-                imageData->Data[i+1] = static_cast<uint8_t>(color.g);
-                imageData->Data[i+2] = static_cast<uint8_t>(color.b);
-                imageData->Data[i+3] = static_cast<uint8_t>(color.a);
+                imageData->Data[i+0] = static_cast<unsigned char>(color.r);
+                imageData->Data[i+1] = static_cast<unsigned char>(color.g);
+                imageData->Data[i+2] = static_cast<unsigned char>(color.b);
+                imageData->Data[i+3] = static_cast<unsigned char>(color.a);
             }
         }
 
@@ -53,10 +49,17 @@ namespace pbr
                            ImageData* imageData)
         {
             int pixelIndex = (pixel.y * imageData->Width + pixel.x) * imageData->NrChannels;
-            imageData->Data[pixelIndex + 0] = color.r * 255.0f;
-            imageData->Data[pixelIndex + 1] = color.g * 255.0f;
-            imageData->Data[pixelIndex + 2] = color.b * 255.0f;
-            imageData->Data[pixelIndex + 3] = color.a * 255.0f; 
+            glm::ivec4 ncolor = color * 255.0f;
+            ncolor = glm::clamp(ncolor, glm::ivec4(0), glm::ivec4(255));
+
+            //if(pixelIndex+0>(imageData->Width* imageData->Height* imageData->NrChannels)) __debugbreak();
+            imageData->Data[pixelIndex + 0] = static_cast<unsigned char>(ncolor.r);
+            //if(pixelIndex + 1>(imageData->Width * imageData->Height * imageData->NrChannels)) __debugbreak();
+            imageData->Data[pixelIndex + 1] = static_cast<unsigned char>(ncolor.g);
+            //if(pixelIndex + 2 > (imageData->Width * imageData->Height * imageData->NrChannels)) __debugbreak();
+            imageData->Data[pixelIndex + 2] = static_cast<unsigned char>(ncolor.b);
+            //if(pixelIndex + 3 > (imageData->Width * imageData->Height * imageData->NrChannels)) __debugbreak();
+            imageData->Data[pixelIndex + 3] = static_cast<unsigned char>(ncolor.a);
         }
 
         void FreeMemory(ImageData* imageData)

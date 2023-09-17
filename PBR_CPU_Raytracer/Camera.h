@@ -8,15 +8,16 @@ namespace pbr
     class Camera
     {
     public:
-        Camera(float aspectRatio = 1.77f, 
-               float fov = 60.0f, 
+        Camera(float fov = 60.0f, 
                float near = 0.1f, 
                float far = 100.0f,
+               const glm::vec2& m_ScreenSize = glm::vec3(0),
                const glm::mat4& viewMatrix = glm::mat4(1.0));
         glm::vec3 PixelPos(float x, float y);
         glm::vec3 Position();
 
     private:
+        glm::vec2 m_ScreenSize;
         float m_AspectRatio;
         float m_Near;
         float m_Far;

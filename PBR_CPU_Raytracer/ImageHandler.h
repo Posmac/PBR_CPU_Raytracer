@@ -22,7 +22,7 @@ namespace pbr
             int Width;
             int Height;
             int NrChannels;
-            uint8_t* Data;
+            unsigned char* Data;
 
             void Init(int width, int height);
         };

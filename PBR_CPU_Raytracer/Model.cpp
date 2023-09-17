@@ -15,6 +15,7 @@ namespace pbr
         {
             FindIntersectionInternal(&localRay, &triangle, &intersectionFound);
         }
+        ray->Color = localRay.Color;
         return intersectionFound;
     }
 
@@ -27,7 +28,6 @@ namespace pbr
         float denom = glm::dot(triangleNormal, ray->Direction);
         if(abs(denom) < 0.001f)
         {
-            //LogInfo("denom");
             return false;
         }
 
@@ -36,11 +36,8 @@ namespace pbr
 
         if(t < 0)
         {
-            //LogInfo("distanceToPlane " + std::to_string(t));
             return false;
         }
-
-        //LogInfo("others");
 
         glm::vec3 point = ray->Position + ray->Direction * t;
 
@@ -79,13 +76,9 @@ namespace pbr
             return false;
         }
 
-        /*LogInfo("Intersected triangle nr ");
-        LogVec3({ triangle->Indices[0], triangle->Indices[1], triangle->Indices[2] });
-        LogVec3(triangleNormal);*/
-
         ray->Distance = t;
         *outIntersectionFound = true;
-        //ray->Color = Vertices[triangle->Indices[2]].Position;
+        ray->Color = triangle->Color;;
 
         return true;
     }

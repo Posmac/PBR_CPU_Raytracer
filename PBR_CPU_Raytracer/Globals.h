@@ -5,8 +5,8 @@
 
 namespace pbr
 {
-    const float HEIGHT = 108 * 2.0;
-    const float WIDTH = 144 * 2.0;
+    const float WIDTH = 1440;
+    const float HEIGHT = 1080;
 
     inline void LogInfo(const std::string& info)
     {

@@ -24,9 +24,9 @@ namespace pbr
         m_InvProjMatrix = glm::inverse(m_ProjectionMatrix);
         m_InvViewProjMatrix = glm::inverse(m_ViewProjMatrix);
 
-        m_BlCornerNdc = glm::vec4(-1, -1, 0, 1);
-        m_TlCornerNdc = glm::vec4( 1, -1, 0, 1);
-        m_BrCornerNdc = glm::vec4(-1,  1, 0, 1);
+        m_BlCornerNdc = glm::vec4(-1,-1, 0, 1);
+        m_TlCornerNdc = glm::vec4(-1, 1, 0, 1);
+        m_BrCornerNdc = glm::vec4( 1,-1, 0, 1);
 
         m_BlCornerWorld = m_InvViewProjMatrix * m_BlCornerNdc;
         m_TlCornerWorld = m_InvViewProjMatrix * m_TlCornerNdc;

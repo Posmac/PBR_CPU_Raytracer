@@ -1,1 +1,38 @@
-﻿  PBR_CPU_Raytracer.vcxproj -> C:\Users\nicolai.posmak\Desktop\PBR_CPU_Raytracer\x64\Debug\PBR_CPU_Raytracer.exe
+﻿  Scene.cpp
+C:\Users\nicolai.posmak\Desktop\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Globals.h(10,25): warning C4244: =: преобразование "float" в "T", возможна потеря данных
+          with
+          [
+              T=int
+          ]
+C:\Users\nicolai.posmak\Desktop\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Globals.h(11,26): warning C4244: =: преобразование "float" в "T", возможна потеря данных
+          with
+          [
+              T=int
+          ]
+C:\Users\nicolai.posmak\Desktop\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Scene.cpp(49,16): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+C:\Users\nicolai.posmak\Desktop\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Scene.cpp(50,23): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+C:\Users\nicolai.posmak\Desktop\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Scene.cpp(51,17): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+C:\Users\nicolai.posmak\Desktop\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Scene.cpp(52,16): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+C:\Users\nicolai.posmak\Desktop\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Scene.cpp(55,33): warning C4244: =: преобразование "float" в "T", возможна потеря данных
+          with
+          [
+              T=int
+          ]
+C:\Users\nicolai.posmak\Desktop\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Scene.cpp(108,66): warning C4305: аргумент: усечение из "double" в "T"
+          with
+          [
+              T=float
+          ]
+C:\Users\nicolai.posmak\Desktop\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Scene.cpp(123,66): warning C4305: аргумент: усечение из "double" в "T"
+          with
+          [
+              T=float
+          ]
+C:\Users\nicolai.posmak\Desktop\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Scene.cpp(138,66): warning C4305: аргумент: усечение из "double" в "T"
+          with
+          [
+              T=float
+          ]
+C:\Users\nicolai.posmak\Desktop\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Scene.cpp(269,65): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+C:\Users\nicolai.posmak\Desktop\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Scene.cpp(277,21): warning C4018: <: несоответствие типов со знаком и без знака
+  PBR_CPU_Raytracer.vcxproj -> C:\Users\nicolai.posmak\Desktop\PBR_CPU_Raytracer\x64\Debug\PBR_CPU_Raytracer.exe

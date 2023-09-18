@@ -32,7 +32,7 @@ int main(int argc, char* argv[])
     pbr::LogInfo("Initialized scene");
 
     film.ClearImage({ 0, 0, 0, 255 });
-    pbr::LogInfo("Prepared image");
+    pbr::LogInfo("Prepared image: " + std::to_string(film.Width) + " " + std::to_string(film.Height));
 
     pbr::LogInfo("Start rendering");
     scene.Render(&film);

@@ -1,1 +1,1 @@
-﻿C:\Users\nicolai.posmak\Desktop\PBR_CPU_Raytracer\PBR_CPU_Raytracer\PBR_CPU_Raytracer.vcxproj(167,5): error : This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is ..\packages\Microsoft.Windows.CppWinRT.2.0.220531.1\build\native\Microsoft.Windows.CppWinRT.props.
+﻿  PBR_CPU_Raytracer.vcxproj -> C:\Users\nicolai.posmak\Desktop\PBR_CPU_Raytracer\x64\Debug\PBR_CPU_Raytracer.exe

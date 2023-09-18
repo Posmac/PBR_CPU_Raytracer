@@ -13,8 +13,8 @@ namespace pbr
                float far = 100.0f,
                const glm::vec2& m_ScreenSize = glm::vec3(0),
                const glm::mat4& viewMatrix = glm::mat4(1.0));
-        glm::vec3 PixelPos(float x, float y);
-        glm::vec3 Position();
+        glm::vec4 PixelPos(float x, float y);
+        glm::vec4 Position();
 
     private:
         glm::vec2 m_ScreenSize;

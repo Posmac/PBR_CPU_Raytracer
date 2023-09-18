@@ -1,0 +1,42 @@
+﻿  Scene.cpp
+C:\Users\nicolai.posmak\Desktop\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Globals.h(10,25): warning C4244: =: преобразование "float" в "T", возможна потеря данных
+          with
+          [
+              T=int
+          ]
+C:\Users\nicolai.posmak\Desktop\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Globals.h(11,26): warning C4244: =: преобразование "float" в "T", возможна потеря данных
+          with
+          [
+              T=int
+          ]
+C:\Users\nicolai.posmak\Desktop\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Scene.cpp(47,28): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+C:\Users\nicolai.posmak\Desktop\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Scene.cpp(48,35): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+C:\Users\nicolai.posmak\Desktop\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Scene.cpp(49,29): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+C:\Users\nicolai.posmak\Desktop\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Scene.cpp(50,28): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+C:\Users\nicolai.posmak\Desktop\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Scene.cpp(53,45): warning C4244: =: преобразование "float" в "T", возможна потеря данных
+          with
+          [
+              T=int
+          ]
+C:\Users\nicolai.posmak\Desktop\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Scene.cpp(106,94): warning C4305: аргумент: усечение из "double" в "T"
+          with
+          [
+              T=float
+          ]
+C:\Users\nicolai.posmak\Desktop\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Scene.cpp(121,94): warning C4305: аргумент: усечение из "double" в "T"
+          with
+          [
+              T=float
+          ]
+C:\Users\nicolai.posmak\Desktop\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Scene.cpp(136,94): warning C4305: аргумент: усечение из "double" в "T"
+          with
+          [
+              T=float
+          ]
+C:\Users\nicolai.posmak\Desktop\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Scene.cpp(256,75): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+  Создание кода
+  1 of 4037 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    19 functions had inline decision re-evaluated but remain unchanged
+  Создание кода завершено
+  PBR_CPU_Raytracer.vcxproj -> C:\Users\nicolai.posmak\Desktop\PBR_CPU_Raytracer\x64\Release\PBR_CPU_Raytracer.exe

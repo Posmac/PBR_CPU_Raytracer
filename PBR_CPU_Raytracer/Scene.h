@@ -3,6 +3,7 @@
 #include <vector>
 #include <algorithm>
 #include <unordered_set>
+#include <fstream>
 
 #include "Camera.h"
 #include "tinygltf/tiny_gltf.h"
@@ -30,7 +31,7 @@ namespace pbr
         void Init(tinygltf::Model* model, glm::ivec2* imageSize);
         void Render(Film* film);
         glm::mat4 GetNodeMatrix(tinygltf::Node* node);
-        glm::vec4 GetPixelColor(float x, float y);
+        glm::vec3 GetPixelColor(float x, float y);
         void LoadNode(tinygltf::Model* model, tinygltf::Node* node, const glm::mat4& parentNodeMatrix, glm::ivec2* imageSize);
     private:
         std::vector<Camera> m_Cameras;

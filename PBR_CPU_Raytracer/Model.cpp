@@ -5,34 +5,31 @@ namespace pbr
 {
     bool Mesh::FindIntersection(Ray* ray)
     {
-        Ray localRay;
-        localRay.Direction = glm::normalize(InvModelMatrix * glm::vec4(ray->Direction, 0.0));
-        localRay.Position = InvModelMatrix * glm::vec4(ray->Position, 1.0);
-        localRay.Distance = ray->Distance;
+        Ray localRay{ InvModelMatrix * glm::vec4(ray->Position, 1.0),
+            glm::normalize(InvModelMatrix * glm::vec4(ray->Direction, 0.0)),
+            ray->Distance };
 
         bool intersectionFound = false;
+
         for(auto& triangle : Triangles)
         {
             FindIntersectionInternal(&localRay, &triangle, &intersectionFound);
         }
+
         ray->Color = localRay.Color;
         return intersectionFound;
     }
 
     bool Mesh::FindIntersectionInternal(Ray* ray, const Triangle* triangle, bool* outIntersectionFound)
     {
-        glm::vec3 triangleNormal = (Vertices[triangle->Indices[0]].Normal +
-                                    Vertices[triangle->Indices[1]].Normal +
-                                    Vertices[triangle->Indices[2]].Normal) / 3.0f;
-
-        float denom = glm::dot(triangleNormal, ray->Direction);
+        float denom = glm::dot(triangle->Normal, ray->Direction);
         if(abs(denom) < 0.001f)
         {
             return false;
         }
 
-        float distanceToPlane = -glm::dot(triangleNormal, Vertices[triangle->Indices[0]].Position);
-        float t = -(glm::dot(triangleNormal, ray->Position) + distanceToPlane) / denom;
+        float distanceToPlane = -glm::dot(triangle->Normal, Vertices[triangle->Indices[0]].Position);
+        float t = -(glm::dot(triangle->Normal, ray->Position) + distanceToPlane) / denom;
 
         if(t < 0)
         {
@@ -46,7 +43,7 @@ namespace pbr
         glm::vec3 vp = point - Vertices[triangle->Indices[0]].Position;
         glm::vec3 cross = glm::cross(edge, vp);
 
-        if(glm::dot(triangleNormal, cross) < 0)
+        if(glm::dot(triangle->Normal, cross) < 0)
         {
             return false;
         }
@@ -56,7 +53,7 @@ namespace pbr
         vp = point - Vertices[triangle->Indices[1]].Position;
         cross = glm::cross(edge, vp);
 
-        if(glm::dot(triangleNormal, cross) < 0)
+        if(glm::dot(triangle->Normal, cross) < 0)
         {
             return false;
         }
@@ -66,7 +63,7 @@ namespace pbr
         vp = point - Vertices[triangle->Indices[2]].Position;
         cross = glm::cross(edge, vp);
 
-        if(glm::dot(triangleNormal, cross) < 0)
+        if(glm::dot(triangle->Normal, cross) < 0)
         {
             return false;
         }

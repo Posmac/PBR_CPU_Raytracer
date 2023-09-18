@@ -11,10 +11,14 @@ namespace pbr
             Distance = std::numeric_limits<float>::max();
         }
 
-        glm::vec3 Direction;
-        glm::vec3 Position;
-        glm::vec3 Color;
+        inline Ray(const glm::vec4& pos, const glm::vec4& dir, float dist)
+            : Position(pos), Direction(dir), Distance(dist)
+        {
+        }
 
+        glm::vec3 Position;
+        glm::vec3 Direction;
         float Distance;
+        glm::vec3 Color;
     };
 }

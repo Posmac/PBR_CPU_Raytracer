@@ -3,10 +3,14 @@
 #include <iostream>
 #include <string>
 
+#include "glm/glm.hpp"
+
 namespace pbr
 {
-    const float WIDTH = 1440;
-    const float HEIGHT = 1080;
+    const float WIDTH = 540;
+    const float HEIGHT = 360;
+
+    const glm::vec3 BLACK = glm::vec3(0, 0, 0);
 
     inline void LogInfo(const std::string& info)
     {

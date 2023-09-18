@@ -45,21 +45,17 @@ namespace pbr
         }
 
         void SetPixelColor(const glm::ivec2& pixel,
-                           const glm::vec4& color,
+                           const glm::vec3& color,
                            ImageData* imageData)
         {
             int pixelIndex = (pixel.y * imageData->Width + pixel.x) * imageData->NrChannels;
-            glm::ivec4 ncolor = color * 255.0f;
-            ncolor = glm::clamp(ncolor, glm::ivec4(0), glm::ivec4(255));
+            glm::ivec3 ncolor = color * 255.0f;
+            ncolor = glm::clamp(ncolor, glm::ivec3(0), glm::ivec3(255));
 
-            //if(pixelIndex+0>(imageData->Width* imageData->Height* imageData->NrChannels)) __debugbreak();
             imageData->Data[pixelIndex + 0] = static_cast<unsigned char>(ncolor.r);
-            //if(pixelIndex + 1>(imageData->Width * imageData->Height * imageData->NrChannels)) __debugbreak();
             imageData->Data[pixelIndex + 1] = static_cast<unsigned char>(ncolor.g);
-            //if(pixelIndex + 2 > (imageData->Width * imageData->Height * imageData->NrChannels)) __debugbreak();
             imageData->Data[pixelIndex + 2] = static_cast<unsigned char>(ncolor.b);
-            //if(pixelIndex + 3 > (imageData->Width * imageData->Height * imageData->NrChannels)) __debugbreak();
-            imageData->Data[pixelIndex + 3] = static_cast<unsigned char>(ncolor.a);
+            imageData->Data[pixelIndex + 3] = 255;
         }
 
         void FreeMemory(ImageData* imageData)

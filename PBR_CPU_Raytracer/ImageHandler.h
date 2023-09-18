@@ -31,7 +31,7 @@ namespace pbr
         void WriteToPng(std::string path, ImageData* imageData);
         void WriteColor(const glm::vec4& color, ImageData* imageData);
         void SetPixelColor(const glm::ivec2& pixel,
-                           const glm::vec4& color,
+                           const glm::vec3& color,
                            ImageData* imageData);
         void FreeMemory(ImageData* imageData);
     }

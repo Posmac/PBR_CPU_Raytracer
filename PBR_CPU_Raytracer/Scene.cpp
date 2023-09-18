@@ -1,5 +1,4 @@
 #include "Scene.h"
-#include <fstream>
 
 namespace pbr
 {
@@ -104,7 +103,7 @@ namespace pbr
                                     triangles[i].Indices[0] = static_cast<unsigned int>(indices[0]);
                                     triangles[i].Indices[1] = static_cast<unsigned int>(indices[1]);
                                     triangles[i].Indices[2] = static_cast<unsigned int>(indices[2]);
-                                    triangles[i].Color = glm::linearRand(glm::vec3(0.2), glm::vec3(1.0));
+                                    triangles[i].Color = glm::vec4(glm::linearRand(glm::vec3(0.3), glm::vec3(1.0)), 1.0);
                                 }
                                 break;
                             }
@@ -119,7 +118,7 @@ namespace pbr
                                     triangles[i].Indices[0] = static_cast<unsigned int>(indices[0]);
                                     triangles[i].Indices[1] = static_cast<unsigned int>(indices[1]);
                                     triangles[i].Indices[2] = static_cast<unsigned int>(indices[2]);
-                                    triangles[i].Color = glm::linearRand(glm::vec3(0.2), glm::vec3(1.0));
+                                    triangles[i].Color = glm::vec4(glm::linearRand(glm::vec3(0.3), glm::vec3(1.0)), 1.0);
                                 }
                                 break;
                             }
@@ -134,7 +133,7 @@ namespace pbr
                                     triangles[i].Indices[0] = static_cast<unsigned int>(indices[0]);
                                     triangles[i].Indices[1] = static_cast<unsigned int>(indices[1]);
                                     triangles[i].Indices[2] = static_cast<unsigned int>(indices[2]);
-                                    triangles[i].Color = glm::linearRand(glm::vec3(0.8), glm::vec3(1.0));
+                                    triangles[i].Color = glm::vec4(glm::linearRand(glm::vec3(0.3), glm::vec3(1.0)), 1.0);
                                 }
                                 break;
                             }
@@ -165,8 +164,6 @@ namespace pbr
                                 memcpy(&vertices[i].Position,
                                        buffer.data.data() + currentPtr + sizeof(Vertex::Position) * i,
                                        size);
-                                //currentPtr += bufferView.byteStride;
-                                //LogVec3(vertices[i].Position);
                             }
                         }
 
@@ -178,8 +175,6 @@ namespace pbr
                                 memcpy(&vertices[i].Normal,
                                        buffer.data.data() + currentPtr + sizeof(Vertex::Normal) * i,
                                        size);
-                                //currentPtr += bufferView.byteStride;
-                               //LogVec3(vertices[i].Normal);
                             }
                         }
                         else if(attribute.first == "TEXCOORD_0")
@@ -190,8 +185,6 @@ namespace pbr
                                 memcpy(&vertices[i].TexCoords,
                                        buffer.data.data() + currentPtr + sizeof(Vertex::TexCoords) * i,
                                        size);
-                                //currentPtr += bufferView.byteStride;
-                                //LogVec2(vertices[i].TexCoords);
                             }
                         }
                         else
@@ -205,21 +198,16 @@ namespace pbr
                 mesh.Name = curMesh->name;
                 mesh.ModelMatrix = parentNodeMatrix * GetNodeMatrix(node);
                 mesh.InvModelMatrix = glm::inverse(mesh.ModelMatrix);
-                /*for(auto& v : vertices)
-                {
-                    LogVec3(v.Position);
-                    LogVec3(v.Normal);
-                    LogVec2(v.TexCoords);
-                    std::cout << std::endl;
-                }
-                for(auto& t : triangles)
-                {
-                    LogVec3({ t.Indices[0], t.Indices[1], t.Indices[2] });
-                    LogVec3(t.Color);
-                    std::cout << std::endl;
-                }*/
                 mesh.Vertices = std::move(vertices);
                 mesh.Triangles = std::move(triangles);
+
+                for (auto& t : mesh.Triangles)
+                {
+                    t.Normal = (mesh.Vertices[t.Indices[0]].Normal +
+                        mesh.Vertices[t.Indices[1]].Normal +
+                        mesh.Vertices[t.Indices[2]].Normal) / 3.0f;
+                }
+
                 m_Meshes.push_back(std::move(mesh));
             }
         }
@@ -256,30 +244,8 @@ namespace pbr
 
     void Scene::Render(Film* film)
     {
-        //std::ofstream stream;
-        //stream.open("RESULT_IMAGE.ppm");
-
-        //if(!stream.is_open())
-        //{
-        //    std::cout << "FFFF\n";
-        //}
-
-        //stream << "P3\n" << film->Width << ' ' << film->Height << "\n" << "255\n";
-        //LogInfo("PPM");
-        //for(int y = 0; y < film->Height; y++)
-        //{
-        //    LogInfo("Row nr " + std::to_string(y));
-        //    for(int x = 0; x < film->Width; x++)
-        //    {
-        //        float xStep = static_cast<float>(x) / static_cast<float>(film->Width);
-        //        float yStep = static_cast<float>(y) / static_cast<float>(film->Height);
-        //        glm::vec4 color = /*{ xStep, yStep, 0, 1 }*/ GetPixelColor(xStep, yStep);
-        //        glm::ivec4 ncolor = color * 255.0f;
-        //        color = glm::clamp(ncolor, glm::ivec4(0), glm::ivec4(255));
-        //        stream << ncolor.x << ' ' << ncolor.y << ' ' << ncolor.z << "\n";
-        //    }
-        //}
-        //stream.close();
+        float xStep = 1.0f / static_cast<float>(film->Width);
+        float yStep = 1.0f / static_cast<float>(film->Height);
 
         LogInfo("PNG");
         for(int x = 0; x < film->Width; x++)
@@ -287,30 +253,26 @@ namespace pbr
             LogInfo("Row nr " + std::to_string(x));
             for(int y = 0; y < film->Height; y++)
             {
-                float xStep = static_cast<float>(x) / static_cast<float>(film->Width);
-                float yStep = static_cast<float>(film->Height - y) / static_cast<float>(film->Height);
-                glm::vec4 color = /*{ xStep, yStep, 0, 1 }*/ GetPixelColor(xStep, yStep);
-                film->SetPixelColor({ x,y }, color);
+                film->SetPixelColor({ x,y }, GetPixelColor(x * xStep, 1.0 - (y * yStep)));
             }
         }
     }
 
-    glm::vec4 Scene::GetPixelColor(float x, float y)
+    glm::vec3 Scene::GetPixelColor(float x, float y)
     {
-        Ray ray{};
-        ray.Position = m_Cameras[0].Position();
-        ray.Direction = glm::normalize(m_Cameras[0].PixelPos(x, y) - ray.Position);
-        ray.Distance = std::numeric_limits<float>::infinity();
+        Ray ray = { m_Cameras[0].Position(), 
+            glm::normalize(m_Cameras[0].PixelPos(x, y) - m_Cameras[0].Position()), 
+            std::numeric_limits<float>::infinity() };
 
         for(auto& mesh : m_Meshes)
         {
             if(mesh.FindIntersection(&ray))
             {
-                return { ray.Color, 1.0 };
+                return ray.Color;
             }
         }
 
-        return { 0.0, 0.0, 0.0, 1.0 };
+        return BLACK;
     }
 }
 

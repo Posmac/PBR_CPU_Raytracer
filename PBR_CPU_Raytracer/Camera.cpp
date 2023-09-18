@@ -40,12 +40,12 @@ namespace pbr
         m_UpDirection = m_TlCornerWorld - m_BlCornerWorld;
     }
 
-    glm::vec3 Camera::PixelPos(float x, float y)
+    glm::vec4 Camera::PixelPos(float x, float y)
     {
         return m_BlCornerWorld + m_RightDirection * x + m_UpDirection * y;
     }
 
-    glm::vec3 Camera::Position()
+    glm::vec4 Camera::Position()
     {
         return m_InvViewMatrix[3];
     }

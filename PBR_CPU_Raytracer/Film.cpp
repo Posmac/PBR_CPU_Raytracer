@@ -11,7 +11,7 @@ namespace pbr
         ImageData.Init(width, height);
     }
 
-    void Film::SetPixelColor(const glm::ivec2& position, const glm::vec4& color)
+    void Film::SetPixelColor(const glm::ivec2& position, const glm::vec3& color)
     {
         util::SetPixelColor(position, color, &ImageData);
     }

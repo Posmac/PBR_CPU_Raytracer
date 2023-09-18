@@ -13,6 +13,7 @@ namespace pbr
     struct Triangle
     {
         std::array<unsigned int, 3> Indices;
+        glm::vec3 Normal;
         glm::vec3 Color;
     };
 

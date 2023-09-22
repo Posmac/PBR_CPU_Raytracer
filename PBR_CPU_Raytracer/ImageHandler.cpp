@@ -50,11 +50,11 @@ namespace pbr
         {
             int pixelIndex = (pixel.y * imageData->Width + pixel.x) * imageData->NrChannels;
             glm::ivec3 ncolor = color * 255.0f;
-            ncolor = glm::clamp(ncolor, glm::ivec3(0), glm::ivec3(255));
+           /* ncolor = glm::clamp(ncolor, glm::ivec3(0), glm::ivec3(255));*/
 
-            imageData->Data[pixelIndex + 0] = static_cast<unsigned char>(ncolor.r);
-            imageData->Data[pixelIndex + 1] = static_cast<unsigned char>(ncolor.g);
-            imageData->Data[pixelIndex + 2] = static_cast<unsigned char>(ncolor.b);
+            imageData->Data[pixelIndex + 0] = ncolor.r;
+            imageData->Data[pixelIndex + 1] = ncolor.g;
+            imageData->Data[pixelIndex + 2] = ncolor.b;
             imageData->Data[pixelIndex + 3] = 255;
         }
 

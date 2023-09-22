@@ -39,14 +39,6 @@ namespace pbr
         glm::vec4 BoundingBox; //empty for now
 
         bool FindIntersection(Ray* ray);
-        bool FindIntersectionInternal(Ray* ray, const Triangle* triangle, bool* outIntersectionFound);
-
-        inline bool ray_triangle_intersect(const glm::vec3& r0,
-            const glm::vec3& rd,
-            glm::vec3& v0,
-            const glm::vec3& v1,
-            const glm::vec3& v2,
-            float& distance,
-            glm::vec3& barycentric);
+        bool RayIntersect(Ray* ray, Triangle* trianlge, glm::vec3& barycentric);
     };
 }

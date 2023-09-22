@@ -6,7 +6,10 @@
 
 #include "Ray.h"
 #include "Globals.h"
+#include "ImageHandler.h"
 #include "glm/glm.hpp"
+
+constexpr float kEpsilon = 1e-8;
 
 namespace pbr
 {
@@ -32,9 +35,18 @@ namespace pbr
         std::vector<Triangle> Triangles;
         glm::mat4 ModelMatrix;
         glm::mat4 InvModelMatrix;
+        util::ImageData ImageData;
         glm::vec4 BoundingBox; //empty for now
 
         bool FindIntersection(Ray* ray);
         bool FindIntersectionInternal(Ray* ray, const Triangle* triangle, bool* outIntersectionFound);
+
+        inline bool ray_triangle_intersect(const glm::vec3& r0,
+            const glm::vec3& rd,
+            glm::vec3& v0,
+            const glm::vec3& v1,
+            const glm::vec3& v2,
+            float& distance,
+            glm::vec3& barycentric);
     };
 }

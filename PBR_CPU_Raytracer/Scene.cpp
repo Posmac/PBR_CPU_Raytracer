@@ -29,7 +29,7 @@ namespace pbr
 
 		if (m_Cameras.empty())
 		{
-			LogInfo("Gltf file dont contain any camera, created basic one");
+			LogInfo("Gltf file dont contain any camera, created the basic one");
 			glm::mat4 view = glm::lookAtRH(glm::vec3(0, 0, -1), glm::vec3(0), glm::vec3(0, 1, 0));
 			imageSize->x = WIDTH;
 			imageSize->y = HEIGHT;
@@ -71,10 +71,10 @@ namespace pbr
 			//parse only meshes for now
 			if (node->mesh != -1)
 			{
+				Mesh mesh;
 				tinygltf::Mesh* curMesh = &model->meshes[node->mesh];
 				std::vector<Vertex> vertices;
 				std::vector<Triangle> triangles;
-
 				std::unordered_set<glm::vec3> uniquePos;
 
 				for (auto& primitive : curMesh->primitives)
@@ -194,9 +194,73 @@ namespace pbr
 							MsgAssertIfTrue(true, "Attribute with of type: " + attribute.first + " isn`t supported");
 						}
 					}
+
+					//load textures (for now only 1)
+					if (primitive.material != -1)
+					{
+						tinygltf::Material curMat = model->materials[primitive.material];
+						bool hasBaseColorTexture = curMat.pbrMetallicRoughness.baseColorTexture.index != -1;
+						if (hasBaseColorTexture)
+						{
+							tinygltf::Texture curTexture = model->textures[curMat.pbrMetallicRoughness.baseColorTexture.index];
+							if (curTexture.source != -1)
+							{
+								util::ImageData imageData{};
+								tinygltf::Image curImage = model->images[curTexture.source];
+								if (!curImage.uri.empty())
+								{
+									stbi_uc* data = stbi_load(curImage.uri.c_str(), &imageData.Width, &imageData.Height,
+										&imageData.NrChannels, 0);
+									if (data)
+									{
+										imageData.Data = data;
+									}
+								}
+								else if (curImage.bufferView != -1)
+								{
+									switch (curImage.bits)
+									{
+										case 8:
+										{
+											auto& bufferView = model->bufferViews[curImage.bufferView];
+											auto& buffer = model->buffers[bufferView.buffer];
+
+											if (curImage.component == 3) 
+											{
+												/*int bufferSize = curImage.width * curImage.height * 4;
+												unsigned char* buffer = new unsigned char[bufferSize];
+												unsigned char* rgba = buffer;
+												unsigned char* rgb = &curImage.image[0];
+												for (int32_t i = 0; i < gltfimage.width * gltfimage.height; ++i) {
+													for (int32_t j = 0; j < 3; ++j) {
+														rgba[j] = rgb[j];
+													}
+													rgba += 4;
+													rgb += 3;
+												}
+												deleteBuffer = true;*/
+											}
+											else
+											{
+												imageData.Width = curImage.width;
+												imageData.Height = curImage.height;
+												imageData.NrChannels = curImage.component;
+												imageData.Data = new unsigned char[curImage.image.size()];
+												memcpy(imageData.Data, curImage.image.data(), curImage.image.size());
+												imageData.Size = curImage.image.size();
+											}
+											mesh.ImageData = imageData;
+											break;
+										}
+										default:
+											std::cout << "Current bits per channel isnt supported" << std::endl;
+									}
+								}
+							}
+						}
+					}
 				}
 
-				Mesh mesh;
 				mesh.Name = curMesh->name;
 				mesh.ModelMatrix = parentNodeMatrix * GetNodeMatrix(node);
 				mesh.InvModelMatrix = glm::inverse(mesh.ModelMatrix);
@@ -298,7 +362,7 @@ namespace pbr
 				+ std::to_string(film->Width)
 				+ "]\n");
 
-			workers.push_back(std::thread(batchProcessor, currentRow, film->Height, processor_count+1));
+			workers.push_back(std::thread(batchProcessor, currentRow, film->Height, processor_count + 1));
 		}
 
 		for (auto& worker : workers)

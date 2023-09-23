@@ -1,0 +1,3 @@
+D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\x64\Release\PBR_CPU_Raytracer.vcxproj.MdMergeInputs.cache
+D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\x64\Release\PBR_CPU_Raytracer.vcxproj.cppwinrt_plat.cache
+D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\x64\Release\PBR_CPU_Raytracer.vcxproj.cppwinrt_comp.cache

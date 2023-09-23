@@ -30,7 +30,7 @@ namespace pbr
 		if (m_Cameras.empty())
 		{
 			LogInfo("Gltf file dont contain any camera, created the basic one");
-			glm::mat4 view = glm::lookAtRH(glm::vec3(0, 0, -5), glm::vec3(0), glm::vec3(0, 1, 0));
+			glm::mat4 view = glm::lookAtRH(glm::vec3(0, 0, -2), glm::vec3(0), glm::vec3(0, 1, 0));
 			imageSize->x = WIDTH;
 			imageSize->y = HEIGHT;
 			m_Cameras.emplace_back(Camera(glm::radians(60.0f), 0.1f, 1000.0f, *imageSize, view));

@@ -1,3 +1,17 @@
-﻿  Model.cpp
-C:\Users\nicolai.posmak\Desktop\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Model.h(12,26): warning C4305: инициализация: усечение из "double" в "const float"
-  PBR_CPU_Raytracer.vcxproj -> C:\Users\nicolai.posmak\Desktop\PBR_CPU_Raytracer\x64\Debug\PBR_CPU_Raytracer.exe
+﻿  ImageHandler.cpp
+D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\ImageHandler.cpp(56,52): warning C4244: '=': conversion from 'const T' to 'unsigned char', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\ImageHandler.cpp(57,52): warning C4244: '=': conversion from 'const T' to 'unsigned char', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\ImageHandler.cpp(58,52): warning C4244: '=': conversion from 'const T' to 'unsigned char', possible loss of data
+          with
+          [
+              T=float
+          ]
+  PBR_CPU_Raytracer.vcxproj -> D:\Education\PBR_CPU_Raytracer\x64\Debug\PBR_CPU_Raytracer.exe

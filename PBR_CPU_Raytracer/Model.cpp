@@ -25,11 +25,13 @@ namespace pbr
 
 					glm::ivec2 texCoordsInPixel = { ImageData.Width * interpolatedTexCoords.x,
 						ImageData.Height * interpolatedTexCoords.y };
+					texCoordsInPixel.x %= ImageData.Width;
+					texCoordsInPixel.y %= ImageData.Height;
 
 					int pixelIndex = (texCoordsInPixel.y * ImageData.Width + texCoordsInPixel.x) * ImageData.NrChannels;
-					localRay.Color[0] = ImageData.Data[pixelIndex + 0];
-					localRay.Color[1] = ImageData.Data[pixelIndex + 1];
-					localRay.Color[2] = ImageData.Data[pixelIndex + 2];
+					localRay.Color[0] = std::pow(ImageData.Data[pixelIndex + 0], 1.0f);
+					localRay.Color[1] = std::pow(ImageData.Data[pixelIndex + 1], 1.0f);
+					localRay.Color[2] = std::pow(ImageData.Data[pixelIndex + 2], 1.0f);
 					//localRay.Color = { barycentric.x, barycentric.y, (1.0f - barycentric.x - barycentric.y) };
 					ray->Distance = localRay.Distance;
 					intersectionFound = true;

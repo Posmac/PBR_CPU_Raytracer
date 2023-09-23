@@ -1,4 +1,5 @@
 #include "ImageHandler.h"
+#include <cmath>
 #include <algorithm>
 
 namespace pbr
@@ -49,12 +50,12 @@ namespace pbr
                            ImageData* imageData)
         {
             int pixelIndex = (pixel.y * imageData->Width + pixel.x) * imageData->NrChannels;
-            glm::ivec3 ncolor = color * 255.0f;
+            //glm::vec3 ncolor = color * 255.0f;
            /* ncolor = glm::clamp(ncolor, glm::ivec3(0), glm::ivec3(255));*/
 
-            imageData->Data[pixelIndex + 0] = ncolor.r;
-            imageData->Data[pixelIndex + 1] = ncolor.g;
-            imageData->Data[pixelIndex + 2] = ncolor.b;
+            imageData->Data[pixelIndex + 0] = color.r;
+            imageData->Data[pixelIndex + 1] = color.g;
+            imageData->Data[pixelIndex + 2] = color.b;
             imageData->Data[pixelIndex + 3] = 255;
         }
 

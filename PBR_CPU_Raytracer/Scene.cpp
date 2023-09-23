@@ -348,7 +348,7 @@ namespace pbr
 				+ std::to_string(currentRow)
 				+ " "
 				+ std::to_string(currentRow + columnsPerBatch)
-				+ "]\n");
+				+ "]");
 
 			workers.push_back(std::thread(batchProcessor, currentRow, currentRow + columnsPerBatch, i));
 			currentRow += columnsPerBatch;
@@ -362,7 +362,7 @@ namespace pbr
 				+ std::to_string(currentRow)
 				+ " "
 				+ std::to_string(film->Width)
-				+ "]\n");
+				+ "]");
 
 			workers.push_back(std::thread(batchProcessor, currentRow, film->Height, processor_count + 1));
 		}

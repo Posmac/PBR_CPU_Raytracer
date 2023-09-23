@@ -1,22 +1,47 @@
-﻿  ImageHandler.cpp
-D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\ImageHandler.cpp(56,52): warning C4244: '=': conversion from 'const T' to 'unsigned char', possible loss of data
+﻿  Scene.cpp
+D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Model.h(12,32): warning C4305: 'initializing': truncation from 'double' to 'const float'
+D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Globals.h(10,25): warning C4244: '=': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Globals.h(11,26): warning C4244: '=': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Scene.cpp(49,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Scene.cpp(50,23): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Scene.cpp(51,17): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Scene.cpp(52,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Scene.cpp(55,33): warning C4244: '=': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Scene.cpp(108,86): warning C4305: 'argument': truncation from 'double' to 'T'
           with
           [
               T=float
           ]
-D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\ImageHandler.cpp(57,52): warning C4244: '=': conversion from 'const T' to 'unsigned char', possible loss of data
+D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Scene.cpp(123,86): warning C4305: 'argument': truncation from 'double' to 'T'
           with
           [
               T=float
           ]
-D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\ImageHandler.cpp(58,52): warning C4244: '=': conversion from 'const T' to 'unsigned char', possible loss of data
+D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Scene.cpp(138,86): warning C4305: 'argument': truncation from 'double' to 'T'
           with
           [
               T=float
           ]
+D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Scene.cpp(250,51): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Scene.cpp(335,65): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Scene.cpp(343,21): warning C4018: '<': signed/unsigned mismatch
+  main.cpp
+D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Model.h(12,32): warning C4305: 'initializing': truncation from 'double' to 'const float'
   Generating code
-  8 of 4262 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
+  1 of 4262 functions (<0.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    22 functions had inline decision re-evaluated but remain unchanged
+    20 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   PBR_CPU_Raytracer.vcxproj -> D:\Education\PBR_CPU_Raytracer\x64\Release\PBR_CPU_Raytracer.exe

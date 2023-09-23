@@ -12,19 +12,34 @@
 
 int main(int argc, char* argv[])
 {
-    if(argc != 5)
+    std::string defaultModelPath = "Duck.glb";
+    std::string defaultSavePath = "Result.png";
+    glm::ivec2 filmSize = { pbr::WIDTH, pbr::HEIGHT };
+
+    for(int i = 0; i < argc; i++)
     {
-        std::cout << "Insufficient number of params" << std::endl;
-        abort();
+        if(strcmp(argv[i], "--in") == 0)
+        {
+            defaultModelPath = argv[i + 1];
+            i++;
+        }
+        else if(strcmp(argv[i], "--out") == 0)
+        {
+            defaultSavePath = argv[i + 1];
+            i++;
+        }
+        else if(strcmp(argv[i], "--height") == 0)
+        {
+            filmSize.y = std::atoi(argv[i + 1]);
+            i++;
+        }
     }
 
     pbr::LogInfo("Started process of parsing");
 
-    glm::ivec2 filmSize = { pbr::WIDTH, pbr::HEIGHT};
-
     tinygltf::Model model;
     pbr::Scene scene;
-    pbr::LoadGltf({ argv[4] }, &model);
+    pbr::LoadGltf(defaultModelPath, &model);
     pbr::LogInfo("Loaded gltf");
 
     scene.Init(&model, &filmSize);
@@ -38,7 +53,7 @@ int main(int argc, char* argv[])
     scene.Render(&film);
     pbr::LogInfo("End rendering");
 
-    film.SaveCapture("Result.png");
+    film.SaveCapture(defaultSavePath);
     pbr::LogInfo("Saved to image");
 
     film.Free();

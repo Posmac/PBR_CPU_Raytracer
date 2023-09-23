@@ -32,7 +32,6 @@ namespace pbr
 					localRay.Color[0] = std::pow(ImageData.Data[pixelIndex + 0], 1.0f);
 					localRay.Color[1] = std::pow(ImageData.Data[pixelIndex + 1], 1.0f);
 					localRay.Color[2] = std::pow(ImageData.Data[pixelIndex + 2], 1.0f);
-					//localRay.Color = { barycentric.x, barycentric.y, (1.0f - barycentric.x - barycentric.y) };
 					ray->Distance = localRay.Distance;
 					intersectionFound = true;
 				}

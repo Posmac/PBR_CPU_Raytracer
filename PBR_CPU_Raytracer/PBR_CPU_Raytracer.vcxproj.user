@@ -16,7 +16,7 @@
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LocalDebuggerCommandArguments>..\test.png ..\test1.png ..\test2.png ..\gltf-Binary\Duck.glb</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>--in ..\gltf-Binary\Duck.glb --out ..\OUTPUT.png --height 1080</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
 </Project>

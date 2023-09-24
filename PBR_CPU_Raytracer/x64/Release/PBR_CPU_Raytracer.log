@@ -1,4 +1,9 @@
-﻿  Scene.cpp
+﻿  GltfLoader.cpp
+D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Model.h(12,32): warning C4305: 'initializing': truncation from 'double' to 'const float'
+D:\Education\PBR_CPU_Raytracer\External\tinygltf\tiny_gltf.h(3409,20): warning C4018: '>=': signed/unsigned mismatch
+D:\Education\PBR_CPU_Raytracer\External\tinygltf\tiny_gltf.h(3525,20): warning C4018: '>=': signed/unsigned mismatch
+D:\Education\PBR_CPU_Raytracer\External\tinygltf\tiny_gltf.h(5928,72): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+  Scene.cpp
 D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Model.h(12,32): warning C4305: 'initializing': truncation from 'double' to 'const float'
 D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Globals.h(10,25): warning C4244: '=': conversion from 'float' to 'T', possible loss of data
           with
@@ -37,9 +42,11 @@ D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Scene.cpp(137,114): warning C43
 D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Scene.cpp(249,87): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
 D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Scene.cpp(334,79): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
 D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Scene.cpp(342,26): warning C4018: '<': signed/unsigned mismatch
+  main.cpp
+D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Model.h(12,32): warning C4305: 'initializing': truncation from 'double' to 'const float'
   Generating code
-  13 of 4262 functions ( 0.3%) were compiled, the rest were copied from previous compilation.
+  0 of 4262 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    19 functions had inline decision re-evaluated but remain unchanged
+    0 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   PBR_CPU_Raytracer.vcxproj -> D:\Education\PBR_CPU_Raytracer\x64\Release\PBR_CPU_Raytracer.exe

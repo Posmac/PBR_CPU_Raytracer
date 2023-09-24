@@ -9,5 +9,7 @@
   - [ ] Instancing
 - [ ] Lights support
 - [ ] Extensions
+	- [ ] KHR_materials_transmission 
+	- [ ] KHR_materials_volume 
 - [ ] BHV
-- [ ] Grid       
+- [ ] Grid

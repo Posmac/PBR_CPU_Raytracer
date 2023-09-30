@@ -5,6 +5,7 @@
 #include <unordered_set>
 #include <fstream>
 #include <map>
+#include <set>
 
 #include "Camera.h"
 #include "tinygltf/tiny_gltf.h"
@@ -16,7 +17,6 @@
 #include "Ray.h"
 
 #include "glm/glm.hpp"
-#include "glm/gtc/quaternion.hpp"
 #include "glm/gtc/random.hpp"
 #include <glm/gtc/matrix_transform.hpp>
 #include "glm/gtc/type_ptr.hpp"
@@ -27,6 +27,12 @@
 
 namespace pbr
 {
+    struct Node
+    {
+        Node* NextNode;
+        int InstanceId = -1;
+    };
+
     class Scene
     {
     public:
@@ -68,5 +74,6 @@ namespace pbr
         std::vector<Camera> m_Cameras;
         std::vector<PointLight> m_PointLights;
         std::vector<Instance> m_Instances; // constain all instances of all meshes in the scene which should be rendered
+        std::vector<Node> m_Scene;
     };
 }

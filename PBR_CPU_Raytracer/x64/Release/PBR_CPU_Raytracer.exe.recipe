@@ -2,7 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>D:\Education\PBR_CPU_Raytracer\x64\Release\PBR_CPU_Raytracer.exe</FullPath>
+      <FullPath>D:\Raytracer\PBR_CPU_Raytracer\x64\Release\PBR_CPU_Raytracer.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

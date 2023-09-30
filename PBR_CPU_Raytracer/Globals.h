@@ -7,10 +7,11 @@
 
 namespace pbr
 {
-    const float WIDTH = 1920;
-    const float HEIGHT = 1080;
+    const float WIDTH = 1920/2;
+    const float HEIGHT = 1080/2;
 
-    const glm::vec3 BLACK = glm::vec3(0, 0, 0);
+    const glm::vec3 BLACK = glm::vec3(0);
+    const glm::vec3 GRAY = glm::vec3(64);
 
     inline void LogInfo(const std::string& info)
     {

@@ -42,7 +42,7 @@ int main(int argc, char* argv[])
     pbr::LoadGltf(defaultModelPath, &model);
     pbr::LogInfo("Loaded gltf");
 
-    scene.Init(&model, &filmSize);
+    scene.Init(&model, &filmSize, defaultModelPath);
     pbr::Film film(filmSize.x, filmSize.y);
     pbr::LogInfo("Initialized scene");
 

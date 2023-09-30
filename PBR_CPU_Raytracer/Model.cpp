@@ -4,92 +4,122 @@
 
 namespace pbr
 {
-	bool Mesh::FindIntersection(Ray* ray)
-	{
-		Ray localRay{ InvModelMatrix * glm::vec4(ray->Position, 1.0),
-			glm::normalize(InvModelMatrix * glm::vec4(ray->Direction, 0.0)),
-			ray->Distance };
+    bool MeshPrimitive::FindIntersection(Ray* localRay) const
+    {
+        if(!IntersectsBox(localRay))
+        {
+            return false;
+        }
 
-		bool intersectionFound = false;
-		glm::vec3 barycentric;
+        bool intersectionFound = false;
 
-		for (auto& triangle : Triangles)
-		{
-			if (RayIntersect(&localRay, &triangle, barycentric))
-			{
-				if (localRay.Distance < ray->Distance)
-				{
-					glm::vec2 interpolatedTexCoords = (Vertices[triangle.Indices[0]].TexCoords * barycentric.x +
-						Vertices[triangle.Indices[1]].TexCoords * barycentric.y +
-						Vertices[triangle.Indices[2]].TexCoords * (1.0f - barycentric.x - barycentric.y));
+        for(size_t i = 0; i < Triangles.size(); i++)
+        {
+            if(RayIntersect(localRay, &Triangles[i]))
+            {
+                intersectionFound = true;
+                localRay->TriangleId = i;
+            }
+        }
 
-					glm::ivec2 texCoordsInPixel = { ImageData.Width * interpolatedTexCoords.x,
-						ImageData.Height * interpolatedTexCoords.y };
-					texCoordsInPixel.x %= ImageData.Width;
-					texCoordsInPixel.y %= ImageData.Height;
+        return intersectionFound;
+    }
 
-					int pixelIndex = (texCoordsInPixel.y * ImageData.Width + texCoordsInPixel.x) * ImageData.NrChannels;
-					localRay.Color[0] = std::pow(ImageData.Data[pixelIndex + 0], 1.0f);
-					localRay.Color[1] = std::pow(ImageData.Data[pixelIndex + 1], 1.0f);
-					localRay.Color[2] = std::pow(ImageData.Data[pixelIndex + 2], 1.0f);
-					ray->Distance = localRay.Distance;
-					intersectionFound = true;
-				}
-			}
-		}
+    bool MeshPrimitive::IntersectsBox(Ray* localRay) const
+    {
+        return Box.FindIntersection(*localRay);
+    }
 
-		ray->Color = localRay.Color;
-		return intersectionFound;
-	}
+    bool MeshPrimitive::RayIntersect(Ray* ray, const Triangle* trianlge) const
+    {
+        glm::vec3 v0v1 = Vertices[trianlge->Indices[1]].Position - Vertices[trianlge->Indices[0]].Position;
+        glm::vec3 v0v2 = Vertices[trianlge->Indices[2]].Position - Vertices[trianlge->Indices[0]].Position;
 
-	bool Mesh::RayIntersect(Ray* ray, 
-		Triangle* trianlge,
-		glm::vec3& barycentric)
-	{
-		glm::vec3 v0v1 = Vertices[trianlge->Indices[1]].Position - Vertices[trianlge->Indices[0]].Position;
-		glm::vec3 v0v2 = Vertices[trianlge->Indices[2]].Position - Vertices[trianlge->Indices[0]].Position;
+        glm::vec3 N = glm::cross(v0v1, v0v2);
+        float denom = glm::dot(N, N);
 
-		glm::vec3 N = glm::cross(v0v1, v0v2);
-		float denom = glm::dot(N, N);
+        float NdotRayDirection = glm::dot(N, ray->Direction);
+        if(fabs(NdotRayDirection) < kEpsilon)
+        {
+            return false;
+        }
 
-		float NdotRayDirection = glm::dot(N, ray->Direction);
-		if (fabs(NdotRayDirection) < kEpsilon)
-			return false;
+        float d = -glm::dot(N, Vertices[trianlge->Indices[0]].Position);
 
-		float d = -glm::dot(N, Vertices[trianlge->Indices[0]].Position);
+        float t = -(glm::dot(N, ray->Position) + d) / NdotRayDirection;
+        if(t < 0)
+        {
+            return false;
+        }
 
-		float t = -(glm::dot(N, ray->Position) + d) / NdotRayDirection;
-		if (t < 0) 
-			return false; 
+        if(ray->Distance < t)
+        {
+            return false;
+        }
 
-		glm::vec3 P = ray->Position + t * ray->Direction;
-		glm::vec3 C;
+        glm::vec3 P = ray->Position + t * ray->Direction;
 
-		// edge 0
-		glm::vec3 edge0 = Vertices[trianlge->Indices[1]].Position - Vertices[trianlge->Indices[0]].Position;
-		glm::vec3 vp0 = P - Vertices[trianlge->Indices[0]].Position;
-		C = glm::cross(edge0, vp0);
-		if (glm::dot(N, C) < 0) 
-			return false;
+        // edge 0
+        glm::vec3 edge0 = Vertices[trianlge->Indices[1]].Position - Vertices[trianlge->Indices[0]].Position;
+        glm::vec3 vp0 = P - Vertices[trianlge->Indices[0]].Position;
+        glm::vec3 C1 = glm::cross(edge0, vp0);
 
-		// edge 1
-		glm::vec3 edge1 = Vertices[trianlge->Indices[2]].Position - Vertices[trianlge->Indices[1]].Position;
-		glm::vec3 vp1 = P - Vertices[trianlge->Indices[1]].Position;
-		C = glm::cross(edge1, vp1);
-		if ((barycentric.x = glm::dot(N, C)) < 0)  
-			return false; 
+        if(glm::dot(N, C1) < 0)
+        {
+            return false;
+        }
 
-		// edge 2
-		glm::vec3 edge2 = Vertices[trianlge->Indices[0]].Position - Vertices[trianlge->Indices[2]].Position;
-		glm::vec3 vp2 = P - Vertices[trianlge->Indices[2]].Position;
-		C = glm::cross(edge2, vp2);
-		if ((barycentric.y = glm::dot(N, C)) < 0) 
-			return false;
+        // edge 1
+        glm::vec3 edge1 = Vertices[trianlge->Indices[2]].Position - Vertices[trianlge->Indices[1]].Position;
+        glm::vec3 vp1 = P - Vertices[trianlge->Indices[1]].Position;
+        glm::vec3 C2 = glm::cross(edge1, vp1);
+        if(glm::dot(N, C2) < 0)
+        {
+            return false;
+        }
 
-		barycentric /= denom;
+        // edge 2
+        glm::vec3 edge2 = Vertices[trianlge->Indices[0]].Position - Vertices[trianlge->Indices[2]].Position;
+        glm::vec3 vp2 = P - Vertices[trianlge->Indices[2]].Position;
+        glm::vec3 C3 = glm::cross(edge2, vp2);
 
-		ray->Distance = t;
+        if(glm::dot(N, C3) < 0)
+        {
+            return false;
+        }
 
-		return true;
-	}
+        ray->Barycentric.x = glm::dot(N, C2);
+        ray->Barycentric.y = glm::dot(N, C3);
+
+        ray->Barycentric /= denom;
+        ray->Distance = t;
+
+        return true;
+    }
+
+    bool Model::FindIntersection(Ray* localRay) const
+    {
+        if(!IntersectsBox(localRay))
+        {
+            return false;
+        }
+
+        bool intersectionFind = false;
+
+        for(size_t i = 0; i < Primitives.size(); i++)
+        {
+            if(Primitives[i].FindIntersection(localRay))
+            {
+                intersectionFind = true;
+                localRay->PrimitiveId = i;
+            }
+        }
+
+        return intersectionFind;
+    }
+
+    bool Model::IntersectsBox(Ray* localRay) const
+    {
+        return Box.FindIntersection(*localRay);
+    }
 }

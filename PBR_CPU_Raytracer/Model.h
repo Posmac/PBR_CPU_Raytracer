@@ -7,6 +7,7 @@
 #include "Ray.h"
 #include "Globals.h"
 #include "ImageHandler.h"
+#include "BoundingBox.h"
 #include "glm/glm.hpp"
 
 constexpr float kEpsilon = 1e-8;
@@ -17,28 +18,37 @@ namespace pbr
     {
         std::array<unsigned int, 3> Indices;
         glm::vec3 Normal;
-        glm::vec3 Color;
     };
 
     struct Vertex
     {
         glm::vec3 Position;
         glm::vec3 Normal;
-        glm::vec2 TexCoords;
-        glm::vec3 Color;
+        glm::vec2 TexCoords0;
     };
 
-    struct Mesh
+    struct MeshPrimitive
     {
-        std::string Name;
+    public:
         std::vector<Vertex> Vertices;
         std::vector<Triangle> Triangles;
-        glm::mat4 ModelMatrix;
-        glm::mat4 InvModelMatrix;
-        util::ImageData ImageData;
-        glm::vec4 BoundingBox; //empty for now
+        BoundingBox Box; 
+    public:
+        bool FindIntersection(Ray* localRay) const;
+    private:
+        bool IntersectsBox(Ray* localRay) const;
+        bool RayIntersect(Ray* localRay, const Triangle* trianlge) const;
+    };
 
-        bool FindIntersection(Ray* ray);
-        bool RayIntersect(Ray* ray, Triangle* trianlge, glm::vec3& barycentric);
+    struct Model
+    {
+    public:
+        std::string Name;
+        std::vector<MeshPrimitive> Primitives;
+        BoundingBox Box;
+    public:
+        bool FindIntersection(Ray* localRay) const;
+    private:
+        bool IntersectsBox(Ray* localRay) const;
     };
 }

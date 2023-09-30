@@ -145,6 +145,7 @@
     <ClCompile Include="stb.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="KhrExtensions.h" />
@@ -154,6 +155,7 @@
     <ClInclude Include="ImageHandler.h" />
     <ClInclude Include="Primitive.h" />
     <ClInclude Include="Ray.h" />
+    <ClInclude Include="RenderData.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Core.h" />
     <ClInclude Include="Film.h" />

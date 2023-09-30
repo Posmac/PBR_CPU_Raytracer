@@ -22,7 +22,7 @@ namespace pbr
         if(m_Cameras.empty())
         {
             LogInfo("Gltf file dont contain any camera, created the basic one");
-            glm::mat4 view = glm::lookAtRH(glm::vec3(0, 1, -1), glm::vec3(0), glm::vec3(0, 1, 0));
+            glm::mat4 view = glm::lookAtRH(glm::vec3(-0.5, 0.75, -0.5), glm::vec3(0), glm::vec3(0, 1, 0));
             imageSize->x = WIDTH;
             imageSize->y = HEIGHT;
             m_Cameras.emplace_back(Camera(glm::radians(60.0f), 0.1f, 1000.0f, *imageSize, view));
@@ -136,8 +136,17 @@ namespace pbr
             tinygltf::Image curImage = model.images[curTexture.source];
             if(!curImage.uri.empty())
             {
-                stbi_uc* data = stbi_load((modelPath + curImage.uri).c_str(), &imageData->Width, &imageData->Height,
-                                          &imageData->NrChannels, curImage.component);
+                stbi_uc* data = nullptr;
+
+                if(curImage.mimeType == "image/png")
+                {
+                    data = stbi_load((modelPath + curImage.uri).c_str(), &imageData->Width, &imageData->Height, &imageData->NrChannels, curImage.component);
+                }
+                else
+                {
+                    data = stbi_load((modelPath + curImage.uri).c_str(), &imageData->Width, &imageData->Height, &imageData->NrChannels, 0);
+                }
+
                 if(data)
                 {
                     imageData->Data = data;
@@ -566,9 +575,9 @@ namespace pbr
                 texCoordsInPixel.y %= ImageData.Height;
 
                 int pixelIndex = (texCoordsInPixel.y * ImageData.Width + texCoordsInPixel.x) * ImageData.NrChannels;
-                ray.Color[0] = std::pow(ImageData.Data[pixelIndex + 0], 1.0f);
-                ray.Color[1] = std::pow(ImageData.Data[pixelIndex + 1], 1.0f);
-                ray.Color[2] = std::pow(ImageData.Data[pixelIndex + 2], 1.0f);
+                ray.Color[0] = ImageData.Data[pixelIndex + 0], 1.0f;
+                ray.Color[1] = ImageData.Data[pixelIndex + 1], 1.0f;
+                ray.Color[2] = ImageData.Data[pixelIndex + 2], 1.0f;
             }
         }
 

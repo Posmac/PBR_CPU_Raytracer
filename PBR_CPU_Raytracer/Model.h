@@ -33,6 +33,7 @@ namespace pbr
         std::vector<Vertex> Vertices;
         std::vector<Triangle> Triangles;
         BoundingBox Box; 
+        uint32_t MaterialID;
     public:
         bool FindIntersection(Ray* localRay) const;
     private:

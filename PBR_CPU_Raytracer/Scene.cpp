@@ -2,6 +2,8 @@
 #include <thread>
 #include <string>
 
+#include <easy/profiler.h>
+
 namespace pbr
 {
     Scene::Scene()
@@ -22,10 +24,10 @@ namespace pbr
         if(m_Cameras.empty())
         {
             LogInfo("Gltf file dont contain any camera, created the basic one");
-            glm::mat4 view = glm::lookAtRH(glm::vec3(-0.5, 0.75, -0.5), glm::vec3(0), glm::vec3(0, 1, 0));
+            glm::mat4 view = glm::lookAtRH(glm::vec3(-300, -500, 1000), glm::vec3(0), glm::vec3(0, 1, 0));
             imageSize->x = WIDTH;
             imageSize->y = HEIGHT;
-            m_Cameras.emplace_back(Camera(glm::radians(60.0f), 0.1f, 1000.0f, *imageSize, view));
+            m_Cameras.emplace_back(Camera(glm::radians(60.0f), 0.1f, 10000.0f, *imageSize, view));
         }
     }
 
@@ -52,14 +54,21 @@ namespace pbr
         else if(node->light != -1)
         {
             PointLight light{};
-            light.WorldMatrix = GetNodeMatrix(node);
+            light.WorldMatrix = nodeMatrix;
             m_PointLights.emplace_back(light);
         }
         else if(node->mesh != -1)
         {
+            tinygltf::Mesh curMesh = model->meshes[node->mesh];
+
+            Transform transform;
+            transform.ModelMatrix = nodeMatrix;
+            transform.InvModelMatrix = glm::inverse(transform.ModelMatrix);
+
             Instance instance;
             instance.modelID = node->mesh;
-            tinygltf::Mesh curMesh = model->meshes[node->mesh];
+            instance.transformID = m_Transforms.size();
+
             for(auto& primitive : curMesh.primitives)
             {
                 if(primitive.material == -1)
@@ -67,14 +76,11 @@ namespace pbr
                     LogInfo("No material found!");
                     continue;
                 }
-                instance.materialID = primitive.material;
-                Transform transform;
-                transform.ModelMatrix = parentNodeMatrix * nodeMatrix;
-                transform.InvModelMatrix = glm::inverse(transform.ModelMatrix);
-                m_Transforms.push_back(std::move(transform));
-                instance.transformID = m_Transforms.size() - 1;
-                m_Instances.push_back(instance);
+                instance.primitiveMaterialsID.push_back(primitive.material);
             }
+
+            m_Transforms.push_back(std::move(transform));
+            m_Instances.push_back(instance);
         }
     }
 
@@ -107,6 +113,9 @@ namespace pbr
                 model.Box.Min = glm::min(model.Box.Min, meshPrimitive.Box.Min);
 
                 Material material = LoadMaterial(*curModel, primitive, modelPath);
+
+                meshPrimitive.MaterialID = primitive.material;
+
                 if(primitive.material != -1 && m_Materials.count(primitive.material) == 0)
                 {
                     m_Materials[primitive.material] = std::move(material);
@@ -227,7 +236,7 @@ namespace pbr
 
     void Scene::LoadVertices(tinygltf::Model& model,
                              tinygltf::Primitive& primitive,
-                             std::vector<Vertex>* vertices, 
+                             std::vector<Vertex>* vertices,
                              BoundingBox* bb)
     {
         for(auto& attribute : primitive.attributes)
@@ -373,9 +382,9 @@ namespace pbr
     }
 
     void Scene::LoadIndices(tinygltf::Model& model,
-                                             tinygltf::Primitive& primitive,
-                                             const std::vector<Vertex>& vertices,
-                                             std::vector<Triangle>* triangles)
+                            tinygltf::Primitive& primitive,
+                            const std::vector<Vertex>& vertices,
+                            std::vector<Triangle>* triangles)
     {
         if(primitive.indices > -1)
         {
@@ -486,6 +495,8 @@ namespace pbr
 
         auto batchProcessor = [this, film](int startRow, int endRow, int batchIndex)
         {
+            //EASY_THREAD("Render Thread");
+
             float xStep = 1.0f / static_cast<float>(film->Width);
             float yStep = 1.0f / static_cast<float>(film->Height);
 
@@ -494,11 +505,14 @@ namespace pbr
                 //LogInfo("Row finished: " + std::to_string(x));
                 for(int y = 0; y < film->Height; y++)
                 {
+                    EASY_BLOCK("ROW");
                     film->SetPixelColor({ x,y }, GetPixelColor(x * xStep, 1.0 - (y * yStep)));
+                    EASY_END_BLOCK;
                 }
             }
 
             LogInfo("Finished worker nr: " + std::to_string(batchIndex));
+            //EASY_END_BLOCK;
         };
 
         int currentRow = 0;
@@ -541,8 +555,9 @@ namespace pbr
                     glm::normalize(m_Cameras[0].PixelPos(x, y) - m_Cameras[0].Position()),
                     std::numeric_limits<float>::infinity(), BLACK };
 
-        for(auto& instance : m_Instances)
+        for(int i = 0; i < m_Instances.size(); i++)
         {
+            Instance& instance = m_Instances[i];
             Model& model = m_Models[instance.modelID];
             const Transform& tr = m_Transforms[instance.transformID];
             Ray localRay{ tr.InvModelMatrix * glm::vec4(ray.Position, 1.0),
@@ -552,36 +567,48 @@ namespace pbr
             if(model.FindIntersection(&localRay))
             {
                 ray.Distance = localRay.Distance;
+                //ray.Color = glm::vec3(1.0, 0, 0);
+
+               /* MeshPrimitive& primitive = model.Primitives[localRay.PrimitiveId];
+                std::vector<Vertex>& Vertices = primitive.Vertices;
+                Triangle& Triangle = primitive.Triangles[localRay.TriangleId];*/
+
+                /*if(localRay.PrimitiveId < 1)
+                { 
+                    continue;
+                }*/
 
                 MeshPrimitive& primitive = model.Primitives[localRay.PrimitiveId];
-                std::vector<Vertex>& Vertices = primitive.Vertices;
-                Triangle& Triangle = primitive.Triangles[localRay.TriangleId];
+                Material& material = m_Materials[primitive.MaterialID];
+                ray.Color = material.baseColorFactor + glm::vec4(material.emissiveFactor, 0.0);
 
-                glm::vec2 interpolatedTexCoords = (Vertices[Triangle.Indices[0]].TexCoords0 * localRay.Barycentric.x +
-                                                   Vertices[Triangle.Indices[1]].TexCoords0 * localRay.Barycentric.y +
-                                                   Vertices[Triangle.Indices[2]].TexCoords0 * (1.0f - localRay.Barycentric.x - localRay.Barycentric.y));
+                /*
+                 glm::vec2 interpolatedTexCoords = (Vertices[Triangle.Indices[0]].TexCoords0 * localRay.Barycentric.x +
+                                                    Vertices[Triangle.Indices[1]].TexCoords0 * localRay.Barycentric.y +
+                                                    Vertices[Triangle.Indices[2]].TexCoords0 * (1.0f - localRay.Barycentric.x - localRay.Barycentric.y));
 
-                if(&m_Materials[instance.materialID].BaseColor == nullptr)
-                {
-                    localRay.Color = m_Materials[instance.materialID].baseColorFactor;
-                    continue;
-                }
+                if(m_Materials[instance.materialID].BaseColor == nullptr ||
+                    m_Materials[instance.materialID].BaseColor->ImageData.Data == nullptr)
+                 {
 
-                util::ImageData& ImageData = m_Materials[instance.materialID].BaseColor->ImageData;
+                     continue;
+                 }
 
-                glm::ivec2 texCoordsInPixel = { ImageData.Width * interpolatedTexCoords.x,
-                    ImageData.Height * interpolatedTexCoords.y };
-                texCoordsInPixel.x %= ImageData.Width;
-                texCoordsInPixel.y %= ImageData.Height;
+                 util::ImageData& ImageData = m_Materials[instance.materialID].BaseColor->ImageData;
 
-                int pixelIndex = (texCoordsInPixel.y * ImageData.Width + texCoordsInPixel.x) * ImageData.NrChannels;
-                ray.Color[0] = ImageData.Data[pixelIndex + 0], 1.0f;
-                ray.Color[1] = ImageData.Data[pixelIndex + 1], 1.0f;
-                ray.Color[2] = ImageData.Data[pixelIndex + 2], 1.0f;
+                 glm::ivec2 texCoordsInPixel = { ImageData.Width * interpolatedTexCoords.x,
+                     ImageData.Height * interpolatedTexCoords.y };
+                 texCoordsInPixel.x %= ImageData.Width;
+                 texCoordsInPixel.y %= ImageData.Height;
+
+                 int pixelIndex = (texCoordsInPixel.y * ImageData.Width + texCoordsInPixel.x) * ImageData.NrChannels;
+                 ray.Color[0] = ImageData.Data[pixelIndex + 0], 1.0f;
+                 ray.Color[1] = ImageData.Data[pixelIndex + 1], 1.0f;
+                 ray.Color[2] = ImageData.Data[pixelIndex + 2], 1.0f; */
             }
         }
 
-        return ray.Color;
+        return ray.Color * 255.0f;
     }
 }
 

@@ -7,8 +7,9 @@
 
 namespace pbr
 {
-    const float WIDTH = 1920;
-    const float HEIGHT = 1080;
+    const float WIDTH = 720;
+    const float HEIGHT = 540;
+    const int SAMPLES_PER_PIXEL = 4;
 
     const glm::vec3 BLACK = glm::vec3(0, 0, 0);
 

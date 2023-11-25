@@ -44,6 +44,12 @@ namespace pbr
             return false;
         }
 
+        if(NdotRayDirection > 0.0f)
+        {
+            N *= -1;
+            NdotRayDirection = glm::dot(N, ray->Direction);
+        }
+
         float d = -glm::dot(N, Vertices[trianlge->Indices[0]].Position);
 
         float t = -(glm::dot(N, ray->Position) + d) / NdotRayDirection;

@@ -23,7 +23,7 @@ namespace pbr
             int Height;
             int NrChannels;
             int Size;
-            unsigned char* Data;
+            unsigned char* Data = nullptr;
 
             void Init(int width, int height);
         };

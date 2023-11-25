@@ -47,11 +47,11 @@ namespace pbr
 
     struct Material
     {
-        Texture* Normal;
-        Texture* Occlusion;
-        Texture* BaseColor;
-        Texture* MetallicRoughness;
-        Texture* Emissive;
+        Texture* Normal = nullptr;
+        Texture* Occlusion = nullptr;
+        Texture* BaseColor = nullptr;
+        Texture* MetallicRoughness = nullptr;
+        Texture* Emissive = nullptr;
 
         glm::vec3 emissiveFactor;
         AlphaMode alphaMode; 
@@ -77,6 +77,6 @@ namespace pbr
     {
         uint32_t modelID;
         uint32_t transformID;
-        uint32_t materialID;
+        std::vector<uint32_t> primitiveMaterialsID;
     };
 }

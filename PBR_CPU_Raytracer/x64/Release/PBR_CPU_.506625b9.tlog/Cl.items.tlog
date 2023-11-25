@@ -1,8 +1,8 @@
-D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Camera.cpp;D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\x64\Release\Camera.obj
-D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\main.cpp;D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\x64\Release\main.obj
-D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Model.cpp;D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\x64\Release\Model.obj
-D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\GltfLoader.cpp;D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\x64\Release\GltfLoader.obj
-D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\ImageHandler.cpp;D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\x64\Release\ImageHandler.obj
-D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Scene.cpp;D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\x64\Release\Scene.obj
-D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Film.cpp;D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\x64\Release\Film.obj
-D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\stb.cpp;D:\Education\PBR_CPU_Raytracer\PBR_CPU_Raytracer\x64\Release\stb.obj
+D:\Raytracer\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Camera.cpp;D:\Raytracer\PBR_CPU_Raytracer\PBR_CPU_Raytracer\x64\Release\Camera.obj
+D:\Raytracer\PBR_CPU_Raytracer\PBR_CPU_Raytracer\main.cpp;D:\Raytracer\PBR_CPU_Raytracer\PBR_CPU_Raytracer\x64\Release\main.obj
+D:\Raytracer\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Model.cpp;D:\Raytracer\PBR_CPU_Raytracer\PBR_CPU_Raytracer\x64\Release\Model.obj
+D:\Raytracer\PBR_CPU_Raytracer\PBR_CPU_Raytracer\GltfLoader.cpp;D:\Raytracer\PBR_CPU_Raytracer\PBR_CPU_Raytracer\x64\Release\GltfLoader.obj
+D:\Raytracer\PBR_CPU_Raytracer\PBR_CPU_Raytracer\ImageHandler.cpp;D:\Raytracer\PBR_CPU_Raytracer\PBR_CPU_Raytracer\x64\Release\ImageHandler.obj
+D:\Raytracer\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Scene.cpp;D:\Raytracer\PBR_CPU_Raytracer\PBR_CPU_Raytracer\x64\Release\Scene.obj
+D:\Raytracer\PBR_CPU_Raytracer\PBR_CPU_Raytracer\Film.cpp;D:\Raytracer\PBR_CPU_Raytracer\PBR_CPU_Raytracer\x64\Release\Film.obj
+D:\Raytracer\PBR_CPU_Raytracer\PBR_CPU_Raytracer\stb.cpp;D:\Raytracer\PBR_CPU_Raytracer\PBR_CPU_Raytracer\x64\Release\stb.obj

@@ -75,6 +75,7 @@ namespace pbr
 
     struct Instance
     {
+        std::string Name;
         uint32_t modelID;
         uint32_t transformID;
         std::vector<uint32_t> primitiveMaterialsID;

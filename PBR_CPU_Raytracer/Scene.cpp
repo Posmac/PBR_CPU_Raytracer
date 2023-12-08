@@ -2,8 +2,6 @@
 #include <thread>
 #include <string>
 
-#include <easy/profiler.h>
-
 namespace pbr
 {
     Scene::Scene()

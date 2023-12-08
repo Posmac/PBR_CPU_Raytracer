@@ -62,7 +62,8 @@ namespace pbr
         Material LoadMaterial(tinygltf::Model& model,
                               tinygltf::Primitive& primitive,
                               const std::string& modelPath);
-
+    private:
+        glm::vec3 FindColor(Ray& originalRay, Interval& necessaryInterval, int depth);
     private:
         //resources to load
         std::map<int, Model> m_Models;

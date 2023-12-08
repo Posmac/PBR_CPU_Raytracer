@@ -17,7 +17,6 @@ namespace pbr
     struct Triangle
     {
         std::array<unsigned int, 3> Indices;
-        glm::vec3 Normal;
     };
 
     struct Vertex
@@ -35,10 +34,10 @@ namespace pbr
         BoundingBox Box; 
         uint32_t MaterialID;
     public:
-        bool FindIntersection(Ray* localRay) const;
+        bool FindIntersection(Ray* localRay, Interval& interval, HitResult* result) const;
     private:
         bool IntersectsBox(Ray* localRay) const;
-        bool RayIntersect(Ray* localRay, const Triangle* trianlge) const;
+        bool RayIntersect(Ray* localRay, const Triangle* trianlge, Interval& interval, HitResult* result) const;
     };
 
     struct Model
@@ -48,7 +47,7 @@ namespace pbr
         std::vector<MeshPrimitive> Primitives;
         BoundingBox Box;
     public:
-        bool FindIntersection(Ray* localRay) const;
+        bool FindIntersection(Ray* localRay, HitResult* result) const;
     private:
         bool IntersectsBox(Ray* localRay) const;
     };

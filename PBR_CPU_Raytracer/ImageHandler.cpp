@@ -2,6 +2,8 @@
 #include <cmath>
 #include <algorithm>
 
+#include "Globals.h"
+
 namespace pbr
 {
     namespace util
@@ -46,12 +48,14 @@ namespace pbr
         }
 
         void SetPixelColor(const glm::ivec2& pixel,
-                           const glm::vec3& color,
+                           glm::vec3& color,
                            ImageData* imageData)
         {
+            color = glm::pow(color, glm::vec3(1.0f/2.2f)); //gamma correction
+            color /= (color + 1.0f); //Reinhard tone-mapping
+            color = glm::clamp(color * 255.99f, glm::vec3(0.0f), glm::vec3(255.0f));
+
             int pixelIndex = (pixel.y * imageData->Width + pixel.x) * imageData->NrChannels;
-            //glm::vec3 ncolor = color * 255.0f;
-           /* ncolor = glm::clamp(ncolor, glm::ivec3(0), glm::ivec3(255));*/
 
             imageData->Data[pixelIndex + 0] = color.r;
             imageData->Data[pixelIndex + 1] = color.g;

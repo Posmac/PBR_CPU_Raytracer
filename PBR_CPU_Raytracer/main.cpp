@@ -38,7 +38,7 @@ int main(int argc, char* argv[])
         }
         else if(strcmp(argv[i], "--height") == 0)
         {
-            filmSize.y = std::atoi(argv[i + 1]);
+            //filmSize.y = std::atoi(argv[i + 1]);
             i++;
         }
     }

@@ -4,21 +4,20 @@
 
 namespace pbr
 {
-    bool MeshPrimitive::FindIntersection(Ray* localRay) const
+    bool MeshPrimitive::FindIntersection(Ray* localRay, Interval& interval, HitResult* result) const
     {
-        if(!IntersectsBox(localRay))
+        /*if(!IntersectsBox(localRay))
         {
             return false;
-        }
+        }*/
 
         bool intersectionFound = false;
 
         for(size_t i = 0; i < Triangles.size(); i++)
         {
-            if(RayIntersect(localRay, &Triangles[i]))
+            if(RayIntersect(localRay, &Triangles[i], interval, result))
             {
                 intersectionFound = true;
-                localRay->TriangleId = i;
             }
         }
 
@@ -30,7 +29,7 @@ namespace pbr
         return Box.FindIntersection(*localRay);
     }
 
-    bool MeshPrimitive::RayIntersect(Ray* ray, const Triangle* trianlge) const
+    bool MeshPrimitive::RayIntersect(Ray* ray, const Triangle* trianlge, Interval& interval, HitResult* result) const
     {
         glm::vec3 v0v1 = Vertices[trianlge->Indices[1]].Position - Vertices[trianlge->Indices[0]].Position;
         glm::vec3 v0v2 = Vertices[trianlge->Indices[2]].Position - Vertices[trianlge->Indices[0]].Position;
@@ -44,12 +43,6 @@ namespace pbr
             return false;
         }
 
-        if(NdotRayDirection > 0.0f)
-        {
-            N *= -1;
-            NdotRayDirection = glm::dot(N, ray->Direction);
-        }
-
         float d = -glm::dot(N, Vertices[trianlge->Indices[0]].Position);
 
         float t = -(glm::dot(N, ray->Position) + d) / NdotRayDirection;
@@ -58,7 +51,7 @@ namespace pbr
             return false;
         }
 
-        if(ray->Distance < t)
+        if(t > interval.Max)
         {
             return false;
         }
@@ -94,16 +87,17 @@ namespace pbr
             return false;
         }
 
-        ray->Barycentric.x = glm::dot(N, C2);
-        ray->Barycentric.y = glm::dot(N, C3);
-
-        ray->Barycentric /= denom;
-        ray->Distance = t;
+        result->BarycentricCoordinates.x = glm::dot(N, C2);
+        result->BarycentricCoordinates.y = glm::dot(N, C3);
+        result->BarycentricCoordinates /= denom;
+        result->LocalSpaceNormal = glm::normalize(N);
+        result->LocalSpaceIntersectinPoint = P;
+        interval.Max = t;
 
         return true;
     }
 
-    bool Model::FindIntersection(Ray* localRay) const
+    bool Model::FindIntersection(Ray* localRay, HitResult* result) const
     {
         if(!IntersectsBox(localRay))
         {
@@ -111,13 +105,14 @@ namespace pbr
         }
 
         bool intersectionFind = false;
+        Interval interval = { 0, std::numeric_limits<float>::infinity() };
 
         for(size_t i = 0; i < Primitives.size(); i++)
         {
-            if(Primitives[i].FindIntersection(localRay))
+            if(Primitives[i].FindIntersection(localRay, interval, result))
             {
                 intersectionFind = true;
-                localRay->PrimitiveId = i;
+                result->PrimitiveID = i;
             }
         }
 

@@ -8,7 +8,7 @@ namespace pbr
     {
     public:
         Film(int width, int height);
-        void SetPixelColor(const glm::ivec2& position, const glm::vec3& color);
+        void SetPixelColor(const glm::ivec2& position, glm::vec3& color);
         void ClearImage(const glm::vec4 clearColor);
         void SaveCapture(const std::string& path);
         void Free();
